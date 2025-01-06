@@ -16,7 +16,7 @@ class CreateCustomerDeatils extends StatefulWidget {
 }
 
 class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
-  bool _isSwitchOnForEenadu = true;
+  bool _isSwitchOnForGromoreVegetables = true;
   bool _isSwitchedOnNewsPaperRead = false;
   bool _isSwitchedOnMilk = false;
   bool _fifteendaysFreeEenaduNewspaper = true;
@@ -322,7 +322,7 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    _isSwitchOnForEenadu
+                    _isSwitchOnForGromoreVegetables
                         ? Text(
                             applocalizations.yes,
                             style: const TextStyle(
@@ -341,20 +341,21 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                           ),
                     const Spacer(),
                     CupertinoSwitch(
-                      value: _isSwitchOnForEenadu,
+                      value: _isSwitchOnForGromoreVegetables,
                       activeColor: Colors.green,
                       trackColor: Colors.red,
                       onChanged: (bool value) {
                         setState(() {
-                          _isSwitchOnForEenadu = !_isSwitchOnForEenadu;
+                         _isSwitchOnForGromoreVegetables = !_isSwitchOnForGromoreVegetables;
                         });
                       },
                     ),
                   ],
                 ),
                 const height(),
-                _isSwitchOnForEenadu
-                    ? reusableFormField(
+                _isSwitchOnForGromoreVegetables
+                    ? 
+                    reusableFormField(
                         controller: _feedbackController,
                         labelText: applocalizations.feedbacktoimprovepaper,
                         labelTextSize: 16,
@@ -467,7 +468,7 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                                 ),
                         ],
                       ),
-                _isSwitchOnForEenadu ? const height() : const SizedBox(),
+               _isSwitchOnForGromoreVegetables ? const height() : const SizedBox(),
                 height(),
 
                 // Thise is  New for milk Customer
@@ -477,7 +478,7 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                       mainAxisAlignment: MainAxisAlignment.spaceBetween,
                       children: [
                         Text(
-                          applocalizations.takingMilk,
+                          applocalizations.currentnMilk,
                           style: const TextStyle(
                             fontSize: 18,
                             fontWeight: FontWeight.bold,
@@ -568,7 +569,7 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                           ),
                   ],
                 ),
-                _isSwitchOnForEenadu ? const height() : const SizedBox(),
+                       _isSwitchOnForGromoreVegetables ? const height() : const SizedBox(),
 
                 // !_isSwitchOnForEenadu
                 //     ? Column(

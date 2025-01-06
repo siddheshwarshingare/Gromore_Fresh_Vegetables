@@ -4,7 +4,7 @@
     "customerform":"ग्राहक फॉर्म",
     "name":" कुटुंबप्रमुखाचे नाव",
     "date":"दिनांक",
-    "gromoreOraganicFreshVegetables":"ग्रोमोर सेंद्रिय ताजा भाजीपाला ग्राहक: ",
+    "gromoreOraganicFreshVegetables":"ग्रोमोर सेंद्रिय ताजा भाजीपाला ग्राहक : ",
     "yes":"हो",
     "no":"नाही",
     "feedbacktoimprovepaper":"ग्राहक प्रतिक्रिया",
@@ -74,6 +74,9 @@
     "customerName" : "ग्राहकाचे नाव",
     "street" : "गली",
     "village" : "गाव",
-    "currentnMilk" : "सध्या दूध कोठून घेता",
-    "reasonForNotTakingGromoreMilk" : "ग्रोमोर दूध न घेण्याचे कारण"
+    "currentnMilk" : "सध्या दूध कोठून घेता : ",
+    "reasonForNotTakingGromoreMilk" : "ग्रोमोर दूध न घेण्याचे कारण",
+    "takingVegetables":"सध्या भाजी कोठून घेता : ",
+    "currentnVegetables":"सध्या भाजी कोठून घेता ",
+    "reasonForNotTakingGromoreVegetables":"ग्रोमोर भाजी न घेण्याचे कारण"
 }
