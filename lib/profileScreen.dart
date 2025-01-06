@@ -7,9 +7,11 @@ import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sales_rep/bigColonText.dart';
+import 'package:sales_rep/createCustomerDetails.dart';
 import 'package:sales_rep/loginScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:badges/badges.dart' as badges;
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
   const ProfileScreen({super.key});
@@ -66,13 +68,14 @@ class _ProfileScreenState extends State<ProfileScreen> {
 
   @override
   Widget build(BuildContext context) {
+    final applocalizations = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
         foregroundColor: Colors.white,
         toolbarHeight: 70,
         backgroundColor: Colors.blueAccent,
-        title: const Text(
-          "My Profile",
+        title:  Text(
+          applocalizations!.myProfile,
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
       ),
@@ -142,29 +145,29 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
                 ),
-                child: const Column(
+                child:  Column(
                   children: [
                     BigTextColonText(
-                      title: "Name",
-                      value: "Prashant",
+                      title:applocalizations!.name,
+                      value: "Raje",
                       fSize: 16,
                     ),
                     SizedBox(height: 5),
                     BigTextColonText(
-                      title: "User Name",
-                      value: "Prashant01@eenadu",
+                      title: applocalizations.emailId,
+                      value: "raje@",
                       fSize: 16,
                     ),
                     SizedBox(height: 5),
                     BigTextColonText(
-                      title: "Job role",
-                      value: "Eenadu Agent",
+                      title: applocalizations.jodRole,
+                      value: "Gromore Faming Agent",
                       fSize: 16,
                     ),
                     SizedBox(height: 5),
                     BigTextColonText(
-                      title: "Mobile no.",
-                      value: "8827530290",
+                      title: applocalizations.mobileNumber,
+                      value: "7769032792",
                       fSize: 16,
                     ),
                   ],
@@ -211,10 +214,6 @@ class _ProfileScreenState extends State<ProfileScreen> {
             return Stack(
               children: [
                 AlertDialog(
-                  title: const Text(
-                    "Logout Confirmation",
-                    style: TextStyle(fontWeight: FontWeight.bold),
-                  ),
                   content: const Text("Are you sure you want to logout?"),
                   actions: [
                     TextButton(

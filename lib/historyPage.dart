@@ -134,12 +134,12 @@ class _HistoryPageState extends State<HistoryPage> {
                       crossAxisAlignment: CrossAxisAlignment.start,
                       children: [
                         TextColonText(
-                          title: "Name",
+                          title: applocalizations.customerName,
                           value: _names[index],
                           fSize: 18,
                         ),
                         TextColonText(
-                          title: "Mobile",
+                          title: applocalizations.mobileNumber,
                           value: _mobiles[index],
                           fSize: 18,
                         ),
@@ -154,9 +154,9 @@ class _HistoryPageState extends State<HistoryPage> {
                           fSize: 18,
                         ),
                          TextColonText(
-                            title: 'Street', value: street.toString()),
+                            title: applocalizations.street, value: street.toString()),
                         TextColonText(
-                            title: 'Village', value: _villageName.toString()),
+                            title: applocalizations.village, value: _villageName.toString()),
                       ],
                     ),
                   );

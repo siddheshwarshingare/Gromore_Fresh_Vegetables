@@ -201,7 +201,7 @@ class _LoginscreenState extends State<Loginscreen> {
       _isLoading = true;
     });
     await Future.delayed(const Duration(seconds: 1));
-    if (username == "suraj" && password == "suraj") {
+    if (username == "raje" && password == "raje") {
       return Navigator.pushReplacement(
         context,
         MaterialPageRoute(

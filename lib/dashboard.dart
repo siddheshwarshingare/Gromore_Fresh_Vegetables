@@ -92,7 +92,7 @@ class _DashBoardState extends State<DashBoard> {
         toolbarHeight: 50,
         backgroundColor: Colors.blueAccent,
         title: Text(
-          applocalizations.salesrep,
+          applocalizations.gromoreOraganicFreshVegetables,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,
@@ -286,9 +286,9 @@ class _DashBoardState extends State<DashBoard> {
                                 ),
                               ],
                             ),
-                            child: const Center(
+                            child: Center(
                               child: Text(
-                                "House's Visited",
+                                applocalizations.houseVisited,
                                 style: TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
@@ -298,7 +298,7 @@ class _DashBoardState extends State<DashBoard> {
                           ),
                           const height(),
                           Text(
-                            "Today : ${_names.length.toString()}",
+                            "${applocalizations.today} : ${_names.length.toString()}",
                             style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -357,10 +357,10 @@ class _DashBoardState extends State<DashBoard> {
                                 ),
                               ],
                             ),
-                            child: const Center(
+                            child: Center(
                               child: Text(
-                                "Target Left",
-                                style: TextStyle(
+                                applocalizations.todaysTargetLeft,
+                                style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black),
@@ -369,7 +369,7 @@ class _DashBoardState extends State<DashBoard> {
                           ),
                           const height(),
                           Text(
-                            "Today : ${targetCount.toString()}",
+                            "${applocalizations.today} : ${targetCount.toString()}",
                             style: const TextStyle(
                                 fontSize: 18,
                                 fontWeight: FontWeight.bold,
@@ -386,14 +386,15 @@ class _DashBoardState extends State<DashBoard> {
               coloredContainer(
                   const Color(0xFF432E54),
                   const Color.fromARGB(255, 119, 108, 181),
-                  "My Route Map",
-                  "Route Details will come here..."),
+                  applocalizations.myRouteMap,
+                  applocalizations.routeDetailsWillComeHere),
               const height(),
               coloredContainer(
-                  const Color(0xFF543A14),
-                  const Color.fromARGB(255, 224, 177, 114),
-                  "Planned Details",
-                  "Planned Details will come here..."),
+                const Color(0xFF543A14),
+                const Color.fromARGB(255, 224, 177, 114),
+                applocalizations.plannedDetails,
+                applocalizations.planeDetailsWillComeHere,
+              ),
               const height(),
               Container(
                 width: double.infinity,
@@ -443,9 +444,9 @@ class _DashBoardState extends State<DashBoard> {
                           ),
                         ],
                       ),
-                      child: const Center(
+                      child: Center(
                         child: Text(
-                          "Reports",
+                          applocalizations.reports,
                           style: TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
@@ -454,10 +455,14 @@ class _DashBoardState extends State<DashBoard> {
                     const height(),
                     Column(
                       children: [
-                        FlexTextColonText(title: "Already Subscribed", value: "coming..."),
-                        FlexTextColonText(title: "Not Intrested", value: "coming..."),
-                        FlexTextColonText(title: "Shown Intrest", value: "coming..."),
-                        FlexTextColonText(title: "Willing to Change", value: "coming..."),
+                        FlexTextColonText(
+                            title: applocalizations.alreadySubscribed, value: applocalizations.coming),
+                        FlexTextColonText(
+                            title: applocalizations.notIntrested, value: applocalizations.coming),
+                        FlexTextColonText(
+                            title: applocalizations.shownIntrest, value:applocalizations.coming),
+                        FlexTextColonText(
+                            title:applocalizations.willingToChange, value: applocalizations.coming),
                       ],
                     ),
                     const height()
@@ -469,25 +474,28 @@ class _DashBoardState extends State<DashBoard> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-        backgroundColor: Colors.blueAccent,
-        onPressed: () async {
-          Navigator.push(
-            context,
-            MaterialPageRoute(
-              builder: (_) => const CreateCustomerDeatils(),
-            ),
-          ).then(
-            (_) => _loadDetails(),
-          );
-          // _navigateToInputPage();
-        },
-        icon:Icon(
-          Icons.add_box_outlined,
-          color: Colors.white,
-          size: 30,
-        ),
-        label: Text("Create Form", style: TextStyle(color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),) 
-      ),
+          backgroundColor: Colors.blueAccent,
+          onPressed: () async {
+            Navigator.push(
+              context,
+              MaterialPageRoute(
+                builder: (_) => const CreateCustomerDeatils(),
+              ),
+            ).then(
+              (_) => _loadDetails(),
+            );
+            // _navigateToInputPage();
+          },
+          icon: Icon(
+            Icons.add_box_outlined,
+            color: Colors.white,
+            size: 30,
+          ),
+          label: Text(
+            applocalizations.createForm,
+            style: TextStyle(
+                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+          )),
     );
   }
 

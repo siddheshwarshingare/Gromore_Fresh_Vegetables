@@ -18,19 +18,22 @@ class CreateCustomerDeatils extends StatefulWidget {
 class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
   bool _isSwitchOnForEenadu = true;
   bool _isSwitchedOnNewsPaperRead = false;
-  // bool _fifteendaysFreeEenaduNewspaper = true;
+  bool _isSwitchedOnMilk = false;
+  bool _fifteendaysFreeEenaduNewspaper = true;
   bool _employmentStatus = true;
   bool _isLoading = false;
   String? selectedJobType;
   String? selectedGovtJobType;
+  final TextEditingController _vegetableController = TextEditingController();
+  final TextEditingController _milkController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _feedbackController = TextEditingController();
   final TextEditingController _reasonController = TextEditingController();
   final TextEditingController _newspaperController = TextEditingController();
   final TextEditingController _reasonForNotReadingNewsPaper =
       TextEditingController();
-  // final TextEditingController _offerdeclinedController =
-  //     TextEditingController();
+  final TextEditingController _offerdeclinedController =
+      TextEditingController();
   final TextEditingController _professionController = TextEditingController();
   final TextEditingController _designationController = TextEditingController();
   final TextEditingController _privateCompanyController =
@@ -300,18 +303,20 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                     labelText: applocalizations.mobilenumber,
                     labelTextSize: 14,
                     keyboardType: TextInputType.number),
-               // const height(),
+                // const height(),
                 Text(
                   applocalizations.vegetablesDetails,
                   style: const TextStyle(
                       fontWeight: FontWeight.bold, color: Colors.blue),
                 ),
-                 SizedBox(height: 10,),
+                SizedBox(
+                  height: 10,
+                ),
                 Row(
                   mainAxisAlignment: MainAxisAlignment.spaceBetween,
                   children: [
                     Text(
-                      applocalizations.eenadunewspaper,
+                      applocalizations.gromoreOraganicFreshVegetables,
                       style: const TextStyle(
                         fontSize: 16,
                         fontWeight: FontWeight.bold,
@@ -370,7 +375,7 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
                             children: [
                               Text(
-                                applocalizations.readnewspaper,
+                                applocalizations.takingVegetables,
                                 style: const TextStyle(
                                   fontSize: 18,
                                   fontWeight: FontWeight.bold,
@@ -412,9 +417,9 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                               ? Column(
                                   children: [
                                     reusableFormField(
-                                      controller: _newspaperController,
+                                      controller: _vegetableController,
                                       labelText:
-                                          applocalizations.currentnewpaper,
+                                          applocalizations.currentnVegetables,
                                       labelTextSize: 16,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
@@ -433,7 +438,7 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                                     reusableFormField(
                                       controller: _reasonController,
                                       labelText: applocalizations
-                                          .reasonfornottakingeenadunewspaper,
+                                          .reasonForNotTakingGromoreVegetables,
                                       labelTextSize: 16,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
@@ -463,8 +468,108 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                         ],
                       ),
                 _isSwitchOnForEenadu ? const height() : const SizedBox(),
-//  height(),
-                //15 days free eendau newspaper
+                height(),
+
+                // Thise is  New for milk Customer
+                Column(
+                  children: [
+                    Row(
+                      mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                      children: [
+                        Text(
+                          applocalizations.takingMilk,
+                          style: const TextStyle(
+                            fontSize: 18,
+                            fontWeight: FontWeight.bold,
+                          ),
+                        ),
+                        _isSwitchedOnMilk
+                            ? Text(
+                                applocalizations.yes,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.green,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              )
+                            : Text(
+                                applocalizations.no,
+                                style: const TextStyle(
+                                  fontSize: 18,
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold,
+                                ),
+                              ),
+                        const Spacer(),
+                        CupertinoSwitch(
+                          value: _isSwitchedOnMilk,
+                          activeColor: Colors.green,
+                          trackColor: Colors.red,
+                          onChanged: (bool value) {
+                            setState(() {
+                              _isSwitchedOnMilk =
+                                  !_isSwitchedOnMilk;
+                            });
+                          },
+                        ),
+                      ],
+                    ),
+                    const height(),
+                    _isSwitchedOnMilk
+                        ? Column(
+                            children: [
+                              reusableFormField(
+                                controller: _milkController,
+                                labelText: applocalizations.currentnMilk,
+                                labelTextSize: 16,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please provide current Milk name';
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.text,
+                                lines: null,
+                                onTap: () {
+                                  _showMilkDropdown(context);
+                                },
+                              ),
+                              const height(),
+                              // height(),
+                              reusableFormField(
+                                controller: _reasonController,
+                                labelText: applocalizations
+                                    .reasonForNotTakingGromoreMilk,
+                                labelTextSize: 16,
+                                validator: (value) {
+                                  if (value == null || value.isEmpty) {
+                                    return 'Please provide reason';
+                                  }
+                                  return null;
+                                },
+                                keyboardType: TextInputType.text,
+                                lines: null,
+                              ),
+                            ],
+                          )
+                        : reusableFormField(
+                            controller: _reasonForNotReadingNewsPaper,
+                            labelText:
+                                applocalizations.reasonForNotTakingGromoreMilk,
+                            labelTextSize: 16,
+                            validator: (value) {
+                              if (value == null || value.isEmpty) {
+                                return 'Please provide reason';
+                              }
+                              return null;
+                            },
+                            keyboardType: TextInputType.text,
+                            lines: null,
+                          ),
+                  ],
+                ),
+                _isSwitchOnForEenadu ? const height() : const SizedBox(),
+
                 // !_isSwitchOnForEenadu
                 //     ? Column(
                 //         children: [
@@ -834,43 +939,149 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
   // }
 
 // Function to show the dropdown
-  void _showNewspaperDropdown(BuildContext context) {
-    final List<String> newspapers = [
-      'आठवडी बाजार',
-      'दारावर',
-    ];
+  // void _showNewspaperDropdown(BuildContext context) {
+  //   final List<String> newspapers = [
+  //     'आठवडी बाजार',
+  //     'दारावर',
+  //   ];
 
-    showCupertinoModalPopup(
-      context: context,
-      builder: (BuildContext context) {
-        return CupertinoActionSheet(
-          title: const Text(
-            'Select Current Vegetables',
-            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-          ),
-          // message: const Text('Choose one of the newspapers below.'),
-          actions: newspapers.map((newspaper) {
-            return CupertinoActionSheetAction(
-              child: Text(newspaper),
-              onPressed: () {
-                _newspaperController.text = newspaper;
-                Navigator.pop(context);
-              },
-            );
-          }).toList(),
-          cancelButton: CupertinoActionSheetAction(
-            isDefaultAction: true,
+  //   showCupertinoModalPopup(
+  //     context: context,
+  //     builder: (BuildContext context) {
+  //       return CupertinoActionSheet(
+  //         title: const Text(
+  //           'Select Current Vegetables',
+  //           style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+  //         ),
+  //         // message: const Text('Choose one of the newspapers below.'),
+  //         actions: newspapers.map((newspaper) {
+  //           return CupertinoActionSheetAction(
+  //             child: Text(newspaper),
+  //             onPressed: () {
+  //               _newspaperController.text = newspaper;
+  //               Navigator.pop(context);
+  //             },
+  //           );
+  //         }).toList(),
+  //         cancelButton: CupertinoActionSheetAction(
+  //           isDefaultAction: true,
+  //           onPressed: () {
+  //             Navigator.pop(context);
+  //           },
+  //           child: const Text('Cancel'),
+  //         ),
+  //       );
+  //     },
+  //   );
+  // }
+  void _showNewspaperDropdown(BuildContext context) {
+  final List<String> newspapers = [
+    'आठवडी बाजार',
+    'दारावर',
+  ];
+
+  showCupertinoModalPopup(
+    context: context,
+    builder: (BuildContext context) {
+      return CupertinoActionSheet(
+        title: const Text(
+          'Select Current Vegetables',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+        ),
+        actions: newspapers.map((newspaper) {
+          return CupertinoActionSheetAction(
+            child: Text(newspaper),
             onPressed: () {
+              _vegetableController.text = newspaper;
               Navigator.pop(context);
             },
-            child: const Text('Cancel'),
-          ),
-        );
-      },
-    );
-  }
+          );
+        }).toList(),
+        cancelButton: CupertinoActionSheetAction(
+          isDefaultAction: true,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('Cancel'),
+        ),
+      );
+    },
+  );
+}
 
-  // REUSEABLE TEXT FORM FEILD
+
+// This is Milk Drop
+//  void _showMilkDropdown(BuildContext context) {
+//     final List<String> newspapers = [
+//       'दुसऱ्याकडून',
+//       'दूध पॅकेट',
+//     ];
+
+//     showCupertinoModalPopup(
+//       context: context,
+//       builder: (BuildContext context) {
+//         return CupertinoActionSheet(
+//           title: const Text(
+//             'Select Current Vegetables',
+//             style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+//           ),
+//           // message: const Text('Choose one of the newspapers below.'),
+//           actions: newspapers.map((newspaper) {
+//             return CupertinoActionSheetAction(
+//               child: Text(newspaper),
+//               onPressed: () {
+//                 _newspaperController.text = newspaper;
+//                 Navigator.pop(context);
+//               },
+//             );
+//           }).toList(),
+//           cancelButton: CupertinoActionSheetAction(
+//             isDefaultAction: true,
+//             onPressed: () {
+//               Navigator.pop(context);
+//             },
+//             child: const Text('Cancel'),
+//           ),
+//         );
+//       },
+//     );
+//   }
+void _showMilkDropdown(BuildContext context) {
+  final List<String> options = [
+    'दुसऱ्याकडून',
+    'दूध पॅकेट',
+  ];
+
+  showCupertinoModalPopup(
+    context: context,
+    builder: (BuildContext context) {
+      return CupertinoActionSheet(
+        title: const Text(
+          'Select Current Milk Source',
+          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+        ),
+        actions: options.map((option) {
+          return CupertinoActionSheetAction(
+            child: Text(option),
+            onPressed: () {
+              _milkController.text = option;
+              Navigator.pop(context);
+            },
+          );
+        }).toList(),
+        cancelButton: CupertinoActionSheetAction(
+          isDefaultAction: true,
+          onPressed: () {
+            Navigator.pop(context);
+          },
+          child: const Text('Cancel'),
+        ),
+      );
+    },
+  );
+}
+
+//   // REUSEABLE TEXT FORM FEILD
   Widget reusableFormField({
     required TextEditingController controller,
     required String? labelText,

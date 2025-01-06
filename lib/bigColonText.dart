@@ -21,7 +21,7 @@ class BigTextColonText extends StatelessWidget {
                   style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
                 ),
                 Text(
-                  ":   ",
+                  " :  ",
                   style:
                       TextStyle(fontWeight: FontWeight.bold, fontSize: fSize),
                 )
