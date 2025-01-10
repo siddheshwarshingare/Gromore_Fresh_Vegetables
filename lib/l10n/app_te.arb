@@ -1,6 +1,6 @@
 {
     "add":"జోడించు",
-    "salesrep":"ग्रोमोर सेंद्रिय ताजा भाजीपाला",
+    "appTitle":"ग्रोमोर सेंद्रिय ताजा भाजीपाला",
     "customerform":"ग्राहक फॉर्म",
     "name":" कुटुंबप्रमुखाचे नाव",
     "date":"दिनांक",
@@ -78,5 +78,7 @@
     "reasonForNotTakingGromoreMilk" : "ग्रोमोर दूध न घेण्याचे कारण",
     "takingVegetables":"सध्या भाजी कोठून घेता : ",
     "currentnVegetables":"सध्या भाजी कोठून घेता ",
-    "reasonForNotTakingGromoreVegetables":"ग्रोमोर भाजी न घेण्याचे कारण"
+    "reasonForNotTakingGromoreVegetables":"ग्रोमोर भाजी न घेण्याचे कारण",
+    "unitManger" : "युनिट प्रमुख",
+    "numberOfAgent" : "एजंटची संख्या"
 }

@@ -1,6 +1,7 @@
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
+import 'package:sales_rep/dashBord.dart';
 import 'package:sales_rep/dashboard.dart';
 import 'package:sales_rep/historyPage.dart';
 
@@ -208,7 +209,16 @@ class _LoginscreenState extends State<Loginscreen> {
           builder: (_) => DashBoard(),
         ),
       );
-    } else {
+    } 
+     if (username == "2" && password == "2") {
+      return Navigator.pushReplacement(
+        context,
+        MaterialPageRoute(
+          builder: (_) => const DashBoardOfUnitManager(),
+        ),
+      );
+    }
+    else {
       setState(() {
         _isLoading = false;
       });

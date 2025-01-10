@@ -92,7 +92,7 @@ class _DashBoardState extends State<DashBoard> {
         toolbarHeight: 50,
         backgroundColor: Colors.blueAccent,
         title: Text(
-          applocalizations.gromoreOraganicFreshVegetables,
+          applocalizations.appTitle,
           style: const TextStyle(
             fontSize: 16,
             fontWeight: FontWeight.bold,

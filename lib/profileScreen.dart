@@ -131,13 +131,13 @@ class _ProfileScreenState extends State<ProfileScreen> {
                 padding:
                     const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
                 margin: const EdgeInsets.symmetric(horizontal: 15),
-                decoration: BoxDecoration(
-                  color: const Color.fromARGB(255, 247, 244, 244),
-                  borderRadius: const BorderRadius.vertical(
+                decoration: const BoxDecoration(
+                  color: Color.fromARGB(255, 247, 244, 244),
+                  borderRadius: BorderRadius.vertical(
                     top: Radius.circular(20),
                   ),
                   boxShadow: [
-                    const BoxShadow(
+                    BoxShadow(
                       color: Colors.black,
                       blurRadius: 1,
                       spreadRadius: 1,
@@ -161,7 +161,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     SizedBox(height: 5),
                     BigTextColonText(
                       title: applocalizations.jodRole,
-                      value: "Gromore Faming Agent",
+                      value: "Gromore Farming Agent",
                       fSize: 16,
                     ),
                     SizedBox(height: 5),
@@ -234,7 +234,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               setState(() => _isLoading = true);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                              await prefs.clear(); // Clear shared preferences
+                              //await prefs.clear(); // Clear shared preferences
                                 await Future.delayed(Duration(milliseconds: 1500));
                               Navigator.pushAndRemoveUntil(
                                 context,

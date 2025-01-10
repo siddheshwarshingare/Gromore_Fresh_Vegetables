@@ -1,6 +1,6 @@
 {
     "add":"Add",
-    "gromoreOraganicFreshVegetables":"Gromore Oraganic Fresh Vegetables",
+    "appTitle":"Gromore Oraganic Fresh Vegetables",
     "customerform":"Customer Form",
     "name":"Family Head Name",
     "date":"Date",
@@ -75,6 +75,8 @@
     "street" : "Street",
     "village" : "Village",
     "takingMilk" :"Taking Milk : ",
-    "currentnMilk" : "Current Milk",
-    "reasonForNotTakingGromoreMilk" : "Reason For Not Taking Gromore Milk"
+    "currentnMilk" : "Current Milk  :  ",
+    "reasonForNotTakingGromoreMilk" : "Reason For Not Taking Gromore Milk",
+    "unitManger" : "Unit Manager",
+    "numberOfAgent" : "Number Of Agent"
 }

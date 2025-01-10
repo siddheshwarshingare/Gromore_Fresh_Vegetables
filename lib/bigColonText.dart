@@ -28,7 +28,7 @@ class BigTextColonText extends StatelessWidget {
               ],
             )),
         Expanded(
-            flex: 4,
+            flex: 2,
             child: Text(value ?? "",
                 style:
                     TextStyle(fontSize: fSize, fontWeight: FontWeight.bold))),
@@ -65,7 +65,7 @@ class TextColonText extends StatelessWidget {
               ],
             )),
         Expanded(
-          flex: 5,
+          flex: 3,
           child: Text(
             value ?? "",
             style: TextStyle(fontSize: fSize, fontWeight: FontWeight.bold),
