@@ -1,3 +1,4 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
@@ -16,7 +17,7 @@ class CreateCustomerDeatils extends StatefulWidget {
 }
 
 class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
-  bool _isSwitchOnForGromoreVegetables = true;
+  bool _intestedToTakeGromoreVegetables = true;
   bool _isSwitchedOnNewsPaperRead = false;
   bool _isSwitchedOnMilk = false;
   bool _fifteendaysFreeEenaduNewspaper = true;
@@ -24,14 +25,18 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
   bool _isLoading = false;
   String? selectedJobType;
   String? selectedGovtJobType;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
   final TextEditingController _vegetableController = TextEditingController();
   final TextEditingController _milkController = TextEditingController();
   final TextEditingController _nameController = TextEditingController();
   final TextEditingController _feedbackController = TextEditingController();
-  final TextEditingController _reasonController = TextEditingController();
-  final TextEditingController _newspaperController = TextEditingController();
-  final TextEditingController _reasonForNotReadingNewsPaper =
+ // final TextEditingController _vegatablesController = TextEditingController();
+  final TextEditingController _vegetablesReasonController =
       TextEditingController();
+  final TextEditingController _milkReasonController = TextEditingController();
+  final TextEditingController _newspaperController = TextEditingController();
+  // final TextEditingController _reasonForNotReadingNewsPaper =
+  //     TextEditingController();
   final TextEditingController _offerdeclinedController =
       TextEditingController();
   final TextEditingController _professionController = TextEditingController();
@@ -54,7 +59,7 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
   final _cityController = TextEditingController();
 
   final _pincodeController = TextEditingController();
-
+  String currentusername = '';
   final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
   @override
   void dispose() {
@@ -111,19 +116,24 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
-                reusableFormField(
-                    controller: _agencyNameController,
-                    labelText: applocalizations.agencyname,
-                    labelTextSize: 16,
-                    keyboardType: TextInputType.text),
+                Container(
+                  padding: EdgeInsets.symmetric(vertical: 8),
+                  width: double.infinity,
+                  decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(8),
+                      border: Border.all(width: 2)),
+                  child: Text(
+                    "$currentusername Agency",
+                    style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
+                  ),
+                ),
                 const height(),
 
                 Row(
                   children: [
                     Expanded(
                       child: TextFormField(
-                        // onTap: () => _selectDate(context),
-
+                        //onTap: () => _selectDate(context),
                         readOnly: true,
                         controller: _dateController,
                         style: const TextStyle(
@@ -208,7 +218,7 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                 ),
                 reusableFormField(
                   controller: _nameController,
-                  labelText: applocalizations.name,
+                  labelText: applocalizations.familyHeadName,
                   labelTextSize: 16,
                   keyboardType: TextInputType.text,
                   validator: (value) {
@@ -226,12 +236,12 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                 //     labelTextSize: 14,
                 //     keyboardType: TextInputType.text),
                 //const height(),
-                reusableFormField(
-                    controller: motherNameController,
-                    labelText: applocalizations.mothername,
-                    labelTextSize: 14,
-                    keyboardType: TextInputType.text),
-                const height(),
+                // reusableFormField(
+                //     controller: motherNameController,
+                //     labelText: applocalizations.mothername,
+                //     labelTextSize: 14,
+                //     keyboardType: TextInputType.text),
+                // const height(),
                 // reusableFormField(
                 //     controller: _spouseNameController,
                 //     labelText: applocalizations.spousename,
@@ -268,29 +278,29 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                   ],
                 ),
                 const height(),
-                Row(
-                  children: [
-                    Expanded(
-                      child: reusableFormField(
-                          controller: _cityController,
-                          labelText: applocalizations.city,
-                          labelTextSize: 14,
-                          keyboardType: TextInputType.text),
-                    ),
-                    const SizedBox(
-                      width: 20,
-                    ),
-                    Expanded(
-                      child: reusableFormField(
-                          maxLength: 6,
-                          controller: _pincodeController,
-                          labelText: applocalizations.pinCode,
-                          labelTextSize: 14,
-                          keyboardType: TextInputType.number),
-                    ),
-                  ],
-                ),
-                const height(),
+                // Row(
+                //   children: [
+                //     Expanded(
+                //       child: reusableFormField(
+                //           controller: _cityController,
+                //           labelText: applocalizations.city,
+                //           labelTextSize: 14,
+                //           keyboardType: TextInputType.text),
+                //     ),
+                //     const SizedBox(
+                //       width: 20,
+                //     ),
+                //     Expanded(
+                //       child: reusableFormField(
+                //           maxLength: 6,
+                //           controller: _pincodeController,
+                //           labelText: applocalizations.pinCode,
+                //           labelTextSize: 14,
+                //           keyboardType: TextInputType.number),
+                //     ),
+                //   ],
+                // ),
+                //const height(),
                 reusableFormField(
                     controller: _addressController,
                     labelText: applocalizations.address,
@@ -307,7 +317,9 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                 Text(
                   applocalizations.vegetablesDetails,
                   style: const TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.blue),
+                      fontWeight: FontWeight.bold,
+                      color: Colors.blue,
+                      fontSize: 18),
                 ),
                 SizedBox(
                   height: 10,
@@ -318,11 +330,11 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                     Text(
                       applocalizations.gromoreOraganicFreshVegetables,
                       style: const TextStyle(
-                        fontSize: 16,
+                        fontSize: 18,
                         fontWeight: FontWeight.bold,
                       ),
                     ),
-                    _isSwitchOnForGromoreVegetables
+                    _intestedToTakeGromoreVegetables
                         ? Text(
                             applocalizations.yes,
                             style: const TextStyle(
@@ -341,36 +353,54 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                           ),
                     const Spacer(),
                     CupertinoSwitch(
-                      value: _isSwitchOnForGromoreVegetables,
+                      value: _intestedToTakeGromoreVegetables,
                       activeColor: Colors.green,
                       trackColor: Colors.red,
                       onChanged: (bool value) {
                         setState(() {
-                         _isSwitchOnForGromoreVegetables = !_isSwitchOnForGromoreVegetables;
+                          _intestedToTakeGromoreVegetables =
+                              !_intestedToTakeGromoreVegetables;
                         });
                       },
                     ),
                   ],
                 ),
                 const height(),
-                _isSwitchOnForGromoreVegetables
-                    ? 
-                    reusableFormField(
-                        controller: _feedbackController,
-                        labelText: applocalizations.feedbacktoimprovepaper,
+                !_intestedToTakeGromoreVegetables
+                    ? reusableFormField(
+                        controller: _vegetablesReasonController,
+                        labelText: applocalizations
+                            .reasonForNotTakingGromoreVegetables,
                         labelTextSize: 16,
                         validator: (value) {
                           if (value == null || value.isEmpty) {
-                            return applocalizations.pleaseenterfeedback;
+                            return applocalizations
+                                .reasonForNotTakingGromoreVegetables;
                           }
                           return null;
                         },
                         keyboardType: TextInputType.text,
                         lines: null,
                       )
-                    :
-                    //  Text("Others colum")
-                    Column(
+                    : SizedBox(),
+                //  :
+                //  reusableFormField(
+                //       controller: _feedbackController,
+                //       labelText: applocalizations.feedbacktoimprovepaper,
+                //       labelTextSize: 16,
+                //       validator: (value) {
+                //         if (value == null || value.isEmpty) {
+                //           return applocalizations.pleaseenterfeedback;
+                //         }
+                //         return null;
+                //       },
+                //       keyboardType: TextInputType.text,
+                //       lines: null,
+                //     ),
+
+                //Text("Others colum")
+                !_intestedToTakeGromoreVegetables
+                    ? Column(
                         children: [
                           Row(
                             mainAxisAlignment: MainAxisAlignment.spaceBetween,
@@ -424,7 +454,8 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                                       labelTextSize: 16,
                                       validator: (value) {
                                         if (value == null || value.isEmpty) {
-                                          return 'Please provide current Newspaper name';
+                                          return applocalizations
+                                              .currentnVegetables;
                                         }
                                         return null;
                                       },
@@ -436,30 +467,32 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                                     ),
                                     const height(),
                                     // height(),
-                                    reusableFormField(
-                                      controller: _reasonController,
-                                      labelText: applocalizations
-                                          .reasonForNotTakingGromoreVegetables,
-                                      labelTextSize: 16,
-                                      validator: (value) {
-                                        if (value == null || value.isEmpty) {
-                                          return 'Please provide reason';
-                                        }
-                                        return null;
-                                      },
-                                      keyboardType: TextInputType.text,
-                                      lines: null,
-                                    ),
+                                    // reusableFormField(
+                                    //   controller: _vegetablesReasonController ,
+                                    //   labelText: applocalizations
+                                    //       .reasonForNotTakingGromoreVegetables,
+                                    //   labelTextSize: 16,
+                                    //   validator: (value) {
+                                    //     if (value == null || value.isEmpty) {
+                                    //       return  applocalizations.pleaseEnterTheReasonForNotTakingGromoreVegetables;;
+                                    //     }
+                                    //     return null;
+                                    //   },
+                                    //   keyboardType: TextInputType.text,
+                                    //   lines: null,
+                                    // ),
                                   ],
                                 )
                               : reusableFormField(
-                                  controller: _reasonForNotReadingNewsPaper,
+                                  controller: _milkReasonController,
                                   labelText: applocalizations
                                       .reasonfornotreadingnewspaper,
                                   labelTextSize: 16,
                                   validator: (value) {
                                     if (value == null || value.isEmpty) {
-                                      return 'Please provide reason';
+                                      return applocalizations
+                                          .pleaseEnterTheReasonForNotTakingGromoreVegetables;
+                                      ;
                                     }
                                     return null;
                                   },
@@ -467,9 +500,12 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                                   lines: null,
                                 ),
                         ],
-                      ),
-               _isSwitchOnForGromoreVegetables ? const height() : const SizedBox(),
-                height(),
+                      )
+                    : SizedBox(),
+                // !_intestedToTakeGromoreVegetables
+                //     ? const height()
+                //     : const SizedBox(),
+                // height(),
 
                 // Thise is  New for milk Customer
                 Column(
@@ -480,7 +516,7 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                         Text(
                           applocalizations.currentnMilk,
                           style: const TextStyle(
-                            fontSize: 18,
+                            fontSize: 16,
                             fontWeight: FontWeight.bold,
                           ),
                         ),
@@ -508,15 +544,14 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                           trackColor: Colors.red,
                           onChanged: (bool value) {
                             setState(() {
-                              _isSwitchedOnMilk =
-                                  !_isSwitchedOnMilk;
+                              _isSwitchedOnMilk = !_isSwitchedOnMilk;
                             });
                           },
                         ),
                       ],
                     ),
-                    const height(),
-                    _isSwitchedOnMilk
+                    !_isSwitchedOnMilk ? const height() : SizedBox(),
+                    !_isSwitchedOnMilk
                         ? Column(
                             children: [
                               reusableFormField(
@@ -525,7 +560,7 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                                 labelTextSize: 16,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please provide current Milk name';
+                                    return applocalizations.currentTakingMilk;
                                   }
                                   return null;
                                 },
@@ -535,16 +570,17 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                                   _showMilkDropdown(context);
                                 },
                               ),
-                              const height(),
-                              // height(),
+                              //const height(),
+                              height(),
                               reusableFormField(
-                                controller: _reasonController,
+                                controller: _milkReasonController,
                                 labelText: applocalizations
                                     .reasonForNotTakingGromoreMilk,
                                 labelTextSize: 16,
                                 validator: (value) {
                                   if (value == null || value.isEmpty) {
-                                    return 'Please provide reason';
+                                    return applocalizations
+                                        .pleaseEnterTheReasonForNotTakingGromoreMilk;
                                   }
                                   return null;
                                 },
@@ -553,23 +589,26 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                               ),
                             ],
                           )
-                        : reusableFormField(
-                            controller: _reasonForNotReadingNewsPaper,
-                            labelText:
-                                applocalizations.reasonForNotTakingGromoreMilk,
-                            labelTextSize: 16,
-                            validator: (value) {
-                              if (value == null || value.isEmpty) {
-                                return 'Please provide reason';
-                              }
-                              return null;
-                            },
-                            keyboardType: TextInputType.text,
-                            lines: null,
-                          ),
+                        : SizedBox()
+                    // reusableFormField(
+                    //     controller: _milkReasonController,
+                    //     labelText:
+                    //         applocalizations.reasonForNotTakingGromoreMilk,
+                    //     labelTextSize: 16,
+                    //     validator: (value) {
+                    //       if (value == null || value.isEmpty) {
+                    //         return  applocalizations.pleaseEnterTheReasonForNotTakingGromoreMilk;
+                    //       }
+                    //       return null;
+                    //     },
+                    //     keyboardType: TextInputType.text,
+                    //     lines: null,
+                    //   ),
                   ],
                 ),
-                       _isSwitchOnForGromoreVegetables ? const height() : const SizedBox(),
+                //  _intestedToTakeGromoreVegetables
+                //       ? const height()
+                //       : const SizedBox(),
 
                 // !_isSwitchOnForEenadu
                 //     ? Column(
@@ -895,8 +934,9 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
               if (_formKey.currentState?.validate() ?? false) {
                 await _getCurrentLocation();
                 await Future.delayed(const Duration(milliseconds: 1000));
-
-                await _saveDetails(); // Save details to SharedPreferences
+                storeDataToFirebase();
+                await _saveDetails();
+                // Save details to SharedPreferences
                 // Navigator.pop(context); // Pop the page and go back
               } else {
                 setState(() {
@@ -976,40 +1016,39 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
   //   );
   // }
   void _showNewspaperDropdown(BuildContext context) {
-  final List<String> newspapers = [
-    'आठवडी बाजार',
-    'दारावर',
-  ];
+    final List<String> newspapers = [
+      'आठवडी बाजार',
+      'दारावर',
+    ];
 
-  showCupertinoModalPopup(
-    context: context,
-    builder: (BuildContext context) {
-      return CupertinoActionSheet(
-        title: const Text(
-          'Select Current Vegetables',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-        ),
-        actions: newspapers.map((newspaper) {
-          return CupertinoActionSheetAction(
-            child: Text(newspaper),
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoActionSheet(
+          title: const Text(
+            'Select Current Vegetables',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          actions: newspapers.map((newspaper) {
+            return CupertinoActionSheetAction(
+              child: Text(newspaper),
+              onPressed: () {
+                _vegetableController.text = newspaper;
+                Navigator.pop(context);
+              },
+            );
+          }).toList(),
+          cancelButton: CupertinoActionSheetAction(
+            isDefaultAction: true,
             onPressed: () {
-              _vegetableController.text = newspaper;
               Navigator.pop(context);
             },
-          );
-        }).toList(),
-        cancelButton: CupertinoActionSheetAction(
-          isDefaultAction: true,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Cancel'),
-        ),
-      );
-    },
-  );
-}
-
+            child: const Text('Cancel'),
+          ),
+        );
+      },
+    );
+  }
 
 // This is Milk Drop
 //  void _showMilkDropdown(BuildContext context) {
@@ -1047,40 +1086,40 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
 //       },
 //     );
 //   }
-void _showMilkDropdown(BuildContext context) {
-  final List<String> options = [
-    'दुसऱ्याकडून',
-    'दूध पॅकेट',
-  ];
+  void _showMilkDropdown(BuildContext context) {
+    final List<String> options = [
+      'दुसऱ्याकडून',
+      'दूध पॅकेट',
+    ];
 
-  showCupertinoModalPopup(
-    context: context,
-    builder: (BuildContext context) {
-      return CupertinoActionSheet(
-        title: const Text(
-          'Select Current Milk Source',
-          style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
-        ),
-        actions: options.map((option) {
-          return CupertinoActionSheetAction(
-            child: Text(option),
+    showCupertinoModalPopup(
+      context: context,
+      builder: (BuildContext context) {
+        return CupertinoActionSheet(
+          title: const Text(
+            'Select Current Milk Source',
+            style: TextStyle(fontWeight: FontWeight.bold, color: Colors.black),
+          ),
+          actions: options.map((option) {
+            return CupertinoActionSheetAction(
+              child: Text(option),
+              onPressed: () {
+                _milkController.text = option;
+                Navigator.pop(context);
+              },
+            );
+          }).toList(),
+          cancelButton: CupertinoActionSheetAction(
+            isDefaultAction: true,
             onPressed: () {
-              _milkController.text = option;
               Navigator.pop(context);
             },
-          );
-        }).toList(),
-        cancelButton: CupertinoActionSheetAction(
-          isDefaultAction: true,
-          onPressed: () {
-            Navigator.pop(context);
-          },
-          child: const Text('Cancel'),
-        ),
-      );
-    },
-  );
-}
+            child: const Text('Cancel'),
+          ),
+        );
+      },
+    );
+  }
 
 //   // REUSEABLE TEXT FORM FEILD
   Widget reusableFormField({
@@ -1131,6 +1170,75 @@ void _showMilkDropdown(BuildContext context) {
       readOnly: onTap != null,
       onTap: onTap,
     );
+  }
+
+  Future<void> storeDataToFirebase() async {
+    String name = currentusername.toString();
+    String headname = _nameController.text;
+    String fathersName = _fatherNameController.text;
+    String vegetablesReason = _vegetablesReasonController.text;
+    String milkReason = _milkReasonController.text;
+    String offerNoReason = _offerdeclinedController.text;
+    String jobType = selectedJobType.toString();
+    String govtJobtype = selectedGovtJobType.toString();
+    String designaton = _designationController.text;
+    String privateCompany = _privateCompanyController.text;
+    String mothersName = motherNameController.text;
+    // String spouseName = _spouseNameController.text;
+    String address = _addressController.text;
+    String mobileNumber = _mobileNumberController.text;
+    String date = _dateController.text;
+    String time = _timeController.text;
+    // String agencyName = _agencyNameController.text;
+    String houseNo = _houseNoController.text;
+    String street = _streetController.text;
+    bool intrestedToTakeGromoreVegetables = _intestedToTakeGromoreVegetables;
+    bool intrestedToTakeOutMilk = _isSwitchedOnMilk;
+    bool employmentType = _employmentStatus;
+    String employmentTypeProfession = _professionController.text;
+    String privatejobprofssion = _privateCompanyController.text;
+    // String govtJobProffession = _govtJobProfessionController.text;
+    double? lattitude = _latitude;
+    double? longitude = _longitude;
+
+    try {
+      print("Name   ====== >$name");
+      await firestore.collection('UserData').add({
+        'name': headname,
+        "fathersName": fathersName,
+        "offerNoReason": offerNoReason,
+        "jobType": jobType,
+        "govtJobType": govtJobtype,
+        "employmentTypeProffession": employmentTypeProfession,
+        "privateJobProfession": privatejobprofssion,
+        //"govtJobProfession": govtJobProffession,
+        "designaton": designaton,
+        "privateCompany": privateCompany,
+        "mothersName": mothersName,
+        "address": address,
+        "mobileNumber": mobileNumber,
+        "date": date,
+        "time": time,
+        "agencyName": name,
+        "houseNo": houseNo,
+        "street": street,
+        "intrestedToTakeOurVegetables": intrestedToTakeGromoreVegetables,
+        "resonForNotTakingOurVegetables":vegetablesReason,
+        "intrestedToTakeOurMilk" :intrestedToTakeOutMilk,
+        "reasonForNotTakingOutMilk": milkReason,
+        "employmentType": employmentType,
+        "latitude": lattitude,
+        "longitude": longitude,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Data added successfully!')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to add data: $e')),
+      );
+    }
   }
 
   // Save details to SharedPreferences

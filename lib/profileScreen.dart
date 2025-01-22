@@ -239,6 +239,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
+                               
                                     builder: (_) => Loginscreen()),
                                 (Route<dynamic> route) =>
                                     false, // This removes all the previous routes

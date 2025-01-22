@@ -80,7 +80,7 @@ class TextColonText extends StatelessWidget {
 
 class FlexTextColonText extends StatelessWidget {
   final String? title;
-  final String? value;
+  final int? value;
   final double? fSize;
   const FlexTextColonText(
       {super.key, required this.title, required this.value, this.fSize});
@@ -91,7 +91,7 @@ class FlexTextColonText extends StatelessWidget {
       children: [
         SizedBox(width:20,),
         Expanded(
-            flex: 2,
+            flex: 4,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -109,7 +109,7 @@ class FlexTextColonText extends StatelessWidget {
         Expanded(
           flex: 1,
           child: Text(
-            value ?? "",
+            "$value",
             style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
           ),
         ),

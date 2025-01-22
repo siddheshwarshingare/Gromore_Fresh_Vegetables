@@ -1,12 +1,15 @@
+import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_localizations/flutter_localizations.dart';
-import 'package:sales_rep/dashboard.dart';
+import 'package:sales_rep/agentDashBoard.dart';
 import 'package:sales_rep/historyPage.dart';
 import 'package:sales_rep/loginScreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart'; // Import provider package
 
-void main() {
+Future<void> main() async {
+   WidgetsFlutterBinding.ensureInitialized();
+  await Firebase.initializeApp();
   runApp(
     ChangeNotifierProvider(
       create: (context) => LocaleProvider(), // Provide the LocaleProvider

@@ -1,12 +1,14 @@
 import 'dart:convert';
 import 'dart:io';
 
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:provider/provider.dart';
 import 'package:sales_rep/bigColonText.dart';
 import 'package:sales_rep/createCustomerDetails.dart';
+import 'package:sales_rep/fetchTheDataFromFireBase.dart';
 import 'package:sales_rep/historyPage.dart';
 import 'package:sales_rep/main.dart';
 import 'package:sales_rep/profileScreen.dart';
@@ -30,8 +32,17 @@ class _DashBoardState extends State<DashBoard> {
   String? base64Image;
   Uint8List? webImage;
   int? targetCount;
-
+  int housesCount = 1000; // This will be updated with the total surveys
+  int housesVisitedCount = 0;
+  int eenaduSubscriptionCount = 0;
+  int notIntrestesToJoinPeopleWithGromoreVegetables = 0;
+  int intrestesToJoinPeopleWithGromoreVegetables = 0;
+  int milkTakingIntrestesPeople = 0;
+  int milkNotTakingIntrestesPeople = 0;
+  int numberOfAgents = 0;
+  String currentusername = '';
   bool isEnglish = true; // Track language selection
+  List<Map<String, dynamic>> users = [];
 
   void getSharedPrefdb() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
@@ -42,6 +53,60 @@ class _DashBoardState extends State<DashBoard> {
         webImage = base64Decode(base64Image!);
       }
     });
+  }
+
+  Future<void> fetchDataFromFirebase() async {
+    try {
+      QuerySnapshot snapshot =
+          await FirebaseFirestore.instance.collection('UserData').get();
+      // filter method
+      List<Map<String, dynamic>> filterUsers = snapshot.docs
+          .map((doc) => doc.data() as Map<String, dynamic>)
+          .where((user) => user['agencyName'] == currentusername)
+          .toList();
+
+      setState(() {
+        users = filterUsers;
+      });
+      print("users stored ====> $users");
+      Set<String> uniqueAgencies = Set();
+      int totalSurveys = users.length;
+      int gromoreVegetablesIntrestesPeople = 0;
+      int gromoreVegetablesNotIntrestesPeople = 0;
+      int milkIntrestesPeople = 0;
+      int milkNotIntrestesPeople = 0;
+
+      // Count 'true' and 'false' for eenaduNews
+      for (var user in users) {
+        if (user['eenaduNews'] == true) {
+          gromoreVegetablesIntrestesPeople++;
+        } else if (user['eenaduNews'] == false) {
+          gromoreVegetablesNotIntrestesPeople++;
+        }
+      }
+      // count 'offertrue'
+      for (var user in users) {
+        if (user['15Daysoffer'] == true) {
+          milkIntrestesPeople++;
+        } else if (user['15Daysoffer'] == false) {
+          milkNotIntrestesPeople++;
+        }
+      }
+
+      setState(() {
+        housesCount = 1000; // Keeping this as 1000 as per your request
+        housesVisitedCount = totalSurveys;
+
+        intrestesToJoinPeopleWithGromoreVegetables =
+            gromoreVegetablesIntrestesPeople;
+        notIntrestesToJoinPeopleWithGromoreVegetables =
+            gromoreVegetablesNotIntrestesPeople;
+        milkTakingIntrestesPeople = milkIntrestesPeople;
+        milkNotTakingIntrestesPeople = milkNotIntrestesPeople;
+      });
+    } catch (e) {
+      print('Error fetching data: $e');
+    }
   }
 
   // Load details from SharedPreferences
@@ -109,8 +174,8 @@ class _DashBoardState extends State<DashBoard> {
               });
             },
             child: Container(
-              width: 50,
-              height: 50,
+              width: 45,
+              height: 45,
               decoration: BoxDecoration(
                 shape: BoxShape.circle,
                 border: Border.all(color: Colors.white, width: 2),
@@ -187,6 +252,27 @@ class _DashBoardState extends State<DashBoard> {
                     context,
                     MaterialPageRoute(
                       builder: (_) => const HistoryPage(),
+                    ),
+                  );
+                },
+              ),
+              ListTile(
+                leading: const Icon(
+                  Icons.insert_chart_outlined_sharp,
+                  color: Colors.blue,
+                ),
+                title: Text(applocalizations.historyPage),
+                // trailing: Text(
+                //   targetCount.toString(),
+                //   style: TextStyle(color: Colors.red, fontSize: 16),
+                // ),
+                onTap: () {
+                  Navigator.pop(context);
+                  Navigator.push(
+                    context,
+                    MaterialPageRoute(
+                      builder: (_) =>
+                          HistoryPageData(agencyName: currentusername),
                     ),
                   );
                 },
@@ -456,13 +542,18 @@ class _DashBoardState extends State<DashBoard> {
                     Column(
                       children: [
                         FlexTextColonText(
-                            title: applocalizations.alreadySubscribed, value: applocalizations.coming),
+                            title:
+                                applocalizations.shownIntrestToTakeVegetables,
+                            value: intrestesToJoinPeopleWithGromoreVegetables),
                         FlexTextColonText(
-                            title: applocalizations.notIntrested, value: applocalizations.coming),
+                            title: applocalizations.notIntrestToTakeVegetables,
+                            value: notIntrestesToJoinPeopleWithGromoreVegetables),
                         FlexTextColonText(
-                            title: applocalizations.shownIntrest, value:applocalizations.coming),
+                            title: applocalizations.shownIntrestToTakeMilk,
+                            value: milkTakingIntrestesPeople ),
                         FlexTextColonText(
-                            title:applocalizations.willingToChange, value: applocalizations.coming),
+                            title: applocalizations.notshownIntrestToTakeMilk,
+                            value:milkNotTakingIntrestesPeople),
                       ],
                     ),
                     const height()
