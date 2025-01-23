@@ -1,5 +1,4 @@
 import 'dart:convert';
-import 'dart:io';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
@@ -25,23 +24,20 @@ class DashBoard extends StatefulWidget {
 }
 
 class _DashBoardState extends State<DashBoard> {
-  // List<Map<String, String>> _detailsList = [];
   List<String> _names = [];
   List<String> _mobiles = [];
   String image = "";
   String? base64Image;
   Uint8List? webImage;
   int? targetCount;
-  int housesCount = 1000; // This will be updated with the total surveys
+  int housesCount = 1000;
   int housesVisitedCount = 0;
-  int eenaduSubscriptionCount = 0;
   int notIntrestesToJoinPeopleWithGromoreVegetables = 0;
   int intrestesToJoinPeopleWithGromoreVegetables = 0;
   int milkTakingIntrestesPeople = 0;
   int milkNotTakingIntrestesPeople = 0;
-  int numberOfAgents = 0;
   String currentusername = '';
-  bool isEnglish = true; // Track language selection
+  bool isEnglish = true;
   List<Map<String, dynamic>> users = [];
 
   void getSharedPrefdb() async {
@@ -150,16 +146,17 @@ class _DashBoardState extends State<DashBoard> {
     }
 
     return Scaffold(
+      backgroundColor: const Color.fromARGB(255, 244, 232, 197),
       appBar: AppBar(
         automaticallyImplyLeading: true,
-        foregroundColor: Colors.white,
+        foregroundColor: Colors.black,
         centerTitle: false,
-        toolbarHeight: 50,
-        backgroundColor: Colors.blueAccent,
+        toolbarHeight: 75,
+        backgroundColor: Colors.green,
         title: Text(
           applocalizations.appTitle,
           style: const TextStyle(
-            fontSize: 16,
+            fontSize: 20,
             fontWeight: FontWeight.bold,
           ),
         ),
@@ -174,32 +171,10 @@ class _DashBoardState extends State<DashBoard> {
               });
             },
             child: Container(
-              width: 45,
+              width: 40,
               height: 45,
-              decoration: BoxDecoration(
-                shape: BoxShape.circle,
-                border: Border.all(color: Colors.white, width: 2),
-              ),
-              child: base64Image != null
-                  ? ClipOval(
-                      child: kIsWeb
-                          ? Image.memory(
-                              webImage!,
-                              fit: BoxFit.cover,
-                              width: 50,
-                              height: 50,
-                            )
-                          : Image.file(
-                              File(image),
-                              fit: BoxFit.cover,
-                              width: 50,
-                              height: 50,
-                            ),
-                    )
-                  : const Icon(
-                      Icons.person,
-                      size: 40,
-                    ),
+              child:
+                  const Image(image: AssetImage('assets/Images/profile.png')),
             ),
           ),
           const SizedBox(
@@ -210,42 +185,48 @@ class _DashBoardState extends State<DashBoard> {
       drawer: Container(
         width: 280,
         child: Drawer(
+          elevation: 25,
+          backgroundColor: Colors.white,
           child: Column(
             crossAxisAlignment: CrossAxisAlignment.start,
             children: [
               Container(
                 padding: const EdgeInsets.all(20),
-                width: double.infinity,
-                height: 150,
+                height: 200,
                 decoration:
                     const BoxDecoration(color: Colors.white, boxShadow: [
                   BoxShadow(
                     color: Colors.black,
                     offset:
                         Offset(1, 1), // Shadow position (horizontal, vertical)
-                    blurRadius: 5, // Blur radius
+                    blurRadius: 10, // Blur radius
                     spreadRadius: 1, // Spread radius
                   )
                 ]),
                 child: Container(
                   decoration: const BoxDecoration(
+                    color: Colors.white,
                     image: DecorationImage(
-                      image: AssetImage("assets/Images/enadu.png"),
+                      image: AssetImage("assets/Images/org3.jpg"),
                     ),
                   ),
                 ),
               ),
+              const SizedBox(
+                height: 20,
+              ),
 
               ListTile(
-                leading: const Icon(
-                  Icons.insert_chart_outlined_sharp,
-                  color: Colors.blue,
+                leading: const SizedBox(
+                    height: 45,
+                    width: 50,
+                    child: Image(
+                        image: AssetImage('assets/Images/feather-pen.gif'))),
+                title: Text(
+                  applocalizations.historyPage,
+                  style: const TextStyle(
+                      fontSize: 20, fontWeight: FontWeight.bold),
                 ),
-                title: Text(applocalizations.historyPage),
-                // trailing: Text(
-                //   targetCount.toString(),
-                //   style: TextStyle(color: Colors.red, fontSize: 16),
-                // ),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -256,16 +237,18 @@ class _DashBoardState extends State<DashBoard> {
                   );
                 },
               ),
+
               ListTile(
-                leading: const Icon(
-                  Icons.insert_chart_outlined_sharp,
-                  color: Colors.blue,
+                leading: const SizedBox(
+                    height: 45,
+                    width: 45,
+                    child: Image(
+                        image: AssetImage('assets/Images/checklist.gif'))),
+                title: Text(
+                  applocalizations.survey,
+                  style: const TextStyle(
+                      fontWeight: FontWeight.bold, fontSize: 20),
                 ),
-                title: Text(applocalizations.historyPage),
-                // trailing: Text(
-                //   targetCount.toString(),
-                //   style: TextStyle(color: Colors.red, fontSize: 16),
-                // ),
                 onTap: () {
                   Navigator.pop(context);
                   Navigator.push(
@@ -291,14 +274,18 @@ class _DashBoardState extends State<DashBoard> {
                     Text(
                       applocalizations.chooseYourLanguage,
                       style: const TextStyle(
-                          color: Colors.black,
-                          fontSize: 16,
-                          fontWeight: FontWeight.bold),
+                        color: Colors.black,
+                        fontSize: 17,
+                        fontWeight: FontWeight.bold,
+                      ),
                     ),
                     const Spacer(),
                     const Text(
-                      'मराठी', // Label for the left side
-                      style: TextStyle(color: Colors.black),
+                      'मराठी',
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
                     ),
                     Transform.scale(
                       scale: 0.8,
@@ -311,7 +298,10 @@ class _DashBoardState extends State<DashBoard> {
                     ),
                     const Text(
                       'English', // Label for the right side
-                      style: TextStyle(color: Colors.black),
+                      style: TextStyle(
+                          color: Colors.black,
+                          fontWeight: FontWeight.bold,
+                          fontSize: 16),
                     ),
                   ],
                 ),
@@ -325,6 +315,9 @@ class _DashBoardState extends State<DashBoard> {
         child: SingleChildScrollView(
           child: Column(
             children: [
+              const SizedBox(
+                height: 20,
+              ),
               Row(
                 children: [
                   Expanded(
@@ -332,19 +325,19 @@ class _DashBoardState extends State<DashBoard> {
                       width: double.infinity,
                       // height: 110,
                       decoration: BoxDecoration(
-                        color: Colors.lightGreenAccent,
+                        color: Colors.pink.shade200,
                         boxShadow: const [
                           BoxShadow(
-                            color: Colors.black, // Shadow color
-                            spreadRadius: 1, // Spread of the shadow
-                            blurRadius: 2, // Softness of the shadow
-                            offset: Offset(0, 3), // Shadow position (x, y)
+                            color: Colors.black,
+                            spreadRadius: 2,
+                            blurRadius: 2,
+                            offset: Offset(0, 3),
                           ),
                         ],
                         border: Border.all(width: 1, color: Colors.black),
                         borderRadius: const BorderRadius.only(
-                            topLeft: Radius.circular(10),
-                            bottomLeft: Radius.circular(10)), // Curved edges
+                            topLeft: Radius.circular(15),
+                            bottomLeft: Radius.circular(15)),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -352,30 +345,29 @@ class _DashBoardState extends State<DashBoard> {
                           Container(
                             margin: const EdgeInsets.all(1),
                             width: double.infinity,
-                            height: 40,
+                            height: 50,
                             decoration: const BoxDecoration(
                               color: Colors.white,
                               border: Border(
                                 bottom:
-                                    BorderSide(width: 1, color: Colors.black38),
+                                    BorderSide(width: 1, color: Colors.black),
                               ),
                               borderRadius: BorderRadius.only(
                                 topLeft: Radius.circular(10),
-                              ), // Curved edges
+                              ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black, // Shadow color
-                                  spreadRadius: 1, // Spread of the shadow
-                                  blurRadius: 1, // Softness of the shadow
-                                  offset:
-                                      Offset(0, 0.1), // Shadow position (x, y)
+                                  color: Colors.black,
+                                  spreadRadius: 1,
+                                  blurRadius: 1,
+                                  offset: Offset(0, 0.1),
                                 ),
                               ],
                             ),
                             child: Center(
                               child: Text(
                                 applocalizations.houseVisited,
-                                style: TextStyle(
+                                style: const TextStyle(
                                     fontSize: 18,
                                     fontWeight: FontWeight.bold,
                                     color: Colors.black),
@@ -401,21 +393,20 @@ class _DashBoardState extends State<DashBoard> {
                   Expanded(
                     child: Container(
                       width: double.infinity,
-                      // height: 110,
                       decoration: BoxDecoration(
-                        color: Colors.redAccent,
+                        color: Colors.purple.shade200,
                         boxShadow: const [
                           BoxShadow(
-                            color: Colors.black, // Shadow color
-                            spreadRadius: 1, // Spread of the shadow
-                            blurRadius: 2, // Softness of the shadow
-                            offset: Offset(0, 3), // Shadow position (x, y)
+                            color: Colors.black,
+                            spreadRadius: 2,
+                            blurRadius: 2,
+                            offset: Offset(0, 3),
                           ),
                         ],
                         border: Border.all(width: 1, color: Colors.black),
                         borderRadius: const BorderRadius.only(
-                            topRight: Radius.circular(10),
-                            bottomRight: Radius.circular(10)), // Curved edges
+                            topRight: Radius.circular(15),
+                            bottomRight: Radius.circular(15)),
                       ),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.start,
@@ -423,23 +414,22 @@ class _DashBoardState extends State<DashBoard> {
                           Container(
                             margin: const EdgeInsets.all(1),
                             width: double.infinity,
-                            height: 40,
+                            height: 50,
                             decoration: const BoxDecoration(
                               color: Colors.white,
                               border: Border(
                                 bottom:
-                                    BorderSide(width: 1, color: Colors.black38),
+                                    BorderSide(width: 1, color: Colors.black),
                               ),
                               borderRadius: BorderRadius.only(
                                 topRight: Radius.circular(10),
-                              ), // Curved edges
+                              ),
                               boxShadow: [
                                 BoxShadow(
-                                  color: Colors.black, // Shadow color
-                                  spreadRadius: 1, // Spread of the shadow
-                                  blurRadius: 1, // Softness of the shadow
-                                  offset:
-                                      Offset(0, 0.1), // Shadow position (x, y)
+                                  color: Colors.black,
+                                  spreadRadius: 1,
+                                  blurRadius: 1,
+                                  offset: Offset(0, 0.1),
                                 ),
                               ],
                             ),
@@ -470,41 +460,33 @@ class _DashBoardState extends State<DashBoard> {
               ),
               const height(),
               coloredContainer(
-                  const Color(0xFF432E54),
-                  const Color.fromARGB(255, 119, 108, 181),
+                  const Color.fromARGB(255, 232, 159, 51),
+                  const Color.fromARGB(255, 194, 227, 84),
                   applocalizations.myRouteMap,
                   applocalizations.routeDetailsWillComeHere),
               const height(),
-              coloredContainer(
-                const Color(0xFF543A14),
-                const Color.fromARGB(255, 224, 177, 114),
-                applocalizations.plannedDetails,
-                applocalizations.planeDetailsWillComeHere,
-              ),
-              const height(),
               Container(
+                height: 200,
                 width: double.infinity,
-                // height: 110,
                 decoration: BoxDecoration(
-                  // color: Colors.white,
                   gradient: const LinearGradient(
                     colors: [
-                      Color(0xFF3B1C32),
-                      Color(0xFF6A1E55),
-                    ], // Gradient colors
+                      Color.fromARGB(255, 59, 166, 212),
+                      Color.fromARGB(255, 47, 89, 237),
+                    ],
                     begin: Alignment.topLeft,
                     end: Alignment.bottomRight,
                   ),
                   boxShadow: const [
                     BoxShadow(
-                      color: Colors.black, // Shadow color
-                      spreadRadius: 0, // Spread of the shadow
-                      blurRadius: 2, // Softness of the shadow
-                      offset: Offset(2, 4), // Shadow position (x, y)
+                      color: Colors.black,
+                      spreadRadius: 0,
+                      blurRadius: 2,
+                      offset: Offset(2, 4),
                     ),
                   ],
                   border: Border.all(width: 1, color: Colors.black),
-                  borderRadius: BorderRadius.circular(10), // Curved edges
+                  borderRadius: BorderRadius.circular(10),
                 ),
                 child: Column(
                   mainAxisAlignment: MainAxisAlignment.start,
@@ -520,20 +502,20 @@ class _DashBoardState extends State<DashBoard> {
                         ),
                         borderRadius: BorderRadius.only(
                             topLeft: Radius.circular(10),
-                            topRight: Radius.circular(10)), // Curved edges
+                            topRight: Radius.circular(10)),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black, // Shadow color
-                            spreadRadius: 1, // Spread of the shadow
-                            blurRadius: 1, // Softness of the shadow
-                            offset: Offset(0, 0.1), // Shadow position (x, y)
+                            color: Colors.black,
+                            spreadRadius: 1,
+                            blurRadius: 1,
+                            offset: Offset(0, 0.1),
                           ),
                         ],
                       ),
                       child: Center(
                         child: Text(
                           applocalizations.reports,
-                          style: TextStyle(
+                          style: const TextStyle(
                               fontSize: 18, fontWeight: FontWeight.bold),
                         ),
                       ),
@@ -547,13 +529,14 @@ class _DashBoardState extends State<DashBoard> {
                             value: intrestesToJoinPeopleWithGromoreVegetables),
                         FlexTextColonText(
                             title: applocalizations.notIntrestToTakeVegetables,
-                            value: notIntrestesToJoinPeopleWithGromoreVegetables),
+                            value:
+                                notIntrestesToJoinPeopleWithGromoreVegetables),
                         FlexTextColonText(
                             title: applocalizations.shownIntrestToTakeMilk,
-                            value: milkTakingIntrestesPeople ),
+                            value: milkTakingIntrestesPeople),
                         FlexTextColonText(
                             title: applocalizations.notshownIntrestToTakeMilk,
-                            value:milkNotTakingIntrestesPeople),
+                            value: milkNotTakingIntrestesPeople),
                       ],
                     ),
                     const height()
@@ -565,7 +548,7 @@ class _DashBoardState extends State<DashBoard> {
         ),
       ),
       floatingActionButton: FloatingActionButton.extended(
-          backgroundColor: Colors.blueAccent,
+          backgroundColor: Colors.green,
           onPressed: () async {
             Navigator.push(
               context,
@@ -575,17 +558,16 @@ class _DashBoardState extends State<DashBoard> {
             ).then(
               (_) => _loadDetails(),
             );
-            // _navigateToInputPage();
           },
           icon: Icon(
-            Icons.add_box_outlined,
-            color: Colors.white,
+            Icons.sd_card_alert_outlined,
+            color: Colors.black,
             size: 30,
           ),
           label: Text(
             applocalizations.createForm,
-            style: TextStyle(
-                color: Colors.white, fontWeight: FontWeight.bold, fontSize: 18),
+            style: const TextStyle(
+                color: Colors.black, fontWeight: FontWeight.bold, fontSize: 18),
           )),
     );
   }
@@ -598,27 +580,25 @@ class _DashBoardState extends State<DashBoard> {
   ) {
     return Container(
       width: double.infinity,
-      // height: 110,
       decoration: BoxDecoration(
-        // color: Colors.white,
         gradient: LinearGradient(
           colors: [
             color1,
             color2,
-          ], // Gradient colors
+          ],
           begin: Alignment.topLeft,
           end: Alignment.bottomRight,
         ),
         boxShadow: const [
           BoxShadow(
-            color: Colors.black, // Shadow color
-            spreadRadius: 0, // Spread of the shadow
-            blurRadius: 2, // Softness of the shadow
-            offset: Offset(2, 4), // Shadow position (x, y)
+            color: Colors.black,
+            spreadRadius: 0,
+            blurRadius: 2,
+            offset: Offset(2, 4),
           ),
         ],
         border: Border.all(width: 1, color: Colors.black),
-        borderRadius: BorderRadius.circular(10), // Curved edges
+        borderRadius: BorderRadius.circular(10),
       ),
       child: Column(
         mainAxisAlignment: MainAxisAlignment.start,
@@ -633,14 +613,13 @@ class _DashBoardState extends State<DashBoard> {
                 bottom: BorderSide(width: 1, color: Colors.black38),
               ),
               borderRadius: BorderRadius.only(
-                  topLeft: Radius.circular(10),
-                  topRight: Radius.circular(10)), // Curved edges
+                  topLeft: Radius.circular(10), topRight: Radius.circular(10)),
               boxShadow: [
                 BoxShadow(
-                  color: Colors.black, // Shadow color
-                  spreadRadius: 1, // Spread of the shadow
-                  blurRadius: 1, // Softness of the shadow
-                  offset: Offset(0, 0.1), // Shadow position (x, y)
+                  color: Colors.black,
+                  spreadRadius: 1,
+                  blurRadius: 1,
+                  offset: Offset(0, 0.1),
                 ),
               ],
             ),
@@ -656,7 +635,7 @@ class _DashBoardState extends State<DashBoard> {
           Text(
             text2,
             style: const TextStyle(
-                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+                fontSize: 18, fontWeight: FontWeight.bold, color: Colors.black),
           ),
           const height()
         ],

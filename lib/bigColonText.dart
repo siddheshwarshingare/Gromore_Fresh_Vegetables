@@ -18,7 +18,8 @@ class BigTextColonText extends StatelessWidget {
               children: [
                 Text(
                   title ?? "",
-                  style: TextStyle(fontWeight: FontWeight.w400, fontSize: 16),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w400, fontSize: 16),
                 ),
                 Text(
                   " :  ",
@@ -55,7 +56,8 @@ class TextColonText extends StatelessWidget {
               children: [
                 Text(
                   title ?? "",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 14),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w600, fontSize: 14),
                 ),
                 Text(
                   ":   ",
@@ -76,8 +78,6 @@ class TextColonText extends StatelessWidget {
   }
 }
 
-
-
 class FlexTextColonText extends StatelessWidget {
   final String? title;
   final int? value;
@@ -89,20 +89,27 @@ class FlexTextColonText extends StatelessWidget {
   Widget build(BuildContext context) {
     return Row(
       children: [
-        SizedBox(width:20,),
+        const SizedBox(
+          width: 20,
+        ),
         Expanded(
-            flex: 4,
+            flex: 6,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
                 Text(
                   title ?? "",
-                  style: TextStyle(fontWeight: FontWeight.w600, fontSize: 18, color: Colors.white),
+                  style: const TextStyle(
+                      fontWeight: FontWeight.w600,
+                      fontSize: 18,
+                      color: Colors.black),
                 ),
-                Text(
+                const Text(
                   ":   ",
-                  style:
-                      TextStyle(fontWeight: FontWeight.bold, fontSize: 18, color: Colors.white),
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold,
+                      fontSize: 18,
+                      color: Colors.black),
                 )
               ],
             )),
@@ -110,7 +117,8 @@ class FlexTextColonText extends StatelessWidget {
           flex: 1,
           child: Text(
             "$value",
-            style: TextStyle(fontSize: 18, fontWeight: FontWeight.bold, color: Colors.white),
+            style: const TextStyle(
+                fontSize: 20, fontWeight: FontWeight.bold, color: Colors.black),
           ),
         ),
       ],

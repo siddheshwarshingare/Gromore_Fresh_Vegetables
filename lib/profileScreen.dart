@@ -1,13 +1,11 @@
 import 'dart:io';
-import 'dart:typed_data';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
-import 'package:flutter/foundation.dart'; // For kIsWeb
+import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
 import 'package:sales_rep/bigColonText.dart';
-import 'package:sales_rep/createCustomerDetails.dart';
 import 'package:sales_rep/loginScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:badges/badges.dart' as badges;
@@ -74,7 +72,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
         foregroundColor: Colors.white,
         toolbarHeight: 70,
         backgroundColor: Colors.blueAccent,
-        title:  Text(
+        title: Text(
           applocalizations!.myProfile,
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
         ),
@@ -84,43 +82,35 @@ class _ProfileScreenState extends State<ProfileScreen> {
           Column(
             children: [
               const SizedBox(height: 20),
-              badges.Badge(
-                badgeStyle: const badges.BadgeStyle(badgeColor: Colors.green),
-                position: badges.BadgePosition.bottomEnd(bottom: 5, end: 15),
-                showBadge: true,
-                onTap: () => _pickImage(ImageSource.gallery),
-                badgeContent:
-                    const Icon(Icons.edit, color: Colors.white, size: 20),
-                child: Container(
-                  width: 150,
-                  height: 150,
-                  decoration: BoxDecoration(
-                    shape: BoxShape.circle,
-                    border: Border.all(color: Colors.black, width: 3),
-                  ),
-                  child: base64Image != null
-                      ? ClipOval(
-                          child: kIsWeb
-                              ? Image.memory(
-                                  webImage!,
-                                  fit: BoxFit.cover,
-                                  width: 150,
-                                  height: 150,
-                                )
-                              : Image.file(
-                                  File(base64Image!),
-                                  fit: BoxFit.cover,
-                                  width: 150,
-                                  height: 150,
-                                ),
-                        )
-                      : const Center(
-                          child: Icon(
-                            Icons.person,
-                            size: 100,
-                          ),
-                        ),
+              Container(
+                width: 150,
+                height: 150,
+                decoration: BoxDecoration(
+                  shape: BoxShape.circle,
+                  border: Border.all(color: Colors.black, width: 3),
                 ),
+                // child: base64Image != null
+                //     ? ClipOval(
+                //         child: kIsWeb
+                //             ? Image.memory(
+                //                 webImage!,
+                //                 fit: BoxFit.cover,
+                //                 width: 150,
+                //                 height: 150,
+                //               )
+                //             : Image.file(
+                //                 File(base64Image!),
+                //                 fit: BoxFit.cover,
+                //                 width: 150,
+                //                 height: 150,
+                //               ),
+                //       )
+                //     : const Center(
+                //         child: Icon(
+                //           Icons.person,
+                //           size: 100,
+                //         ),
+                //       ),
               ),
               const SizedBox(height: 20),
               const Divider(color: Colors.grey),
@@ -145,10 +135,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                   ],
                 ),
-                child:  Column(
+                child: Column(
                   children: [
                     BigTextColonText(
-                      title:applocalizations!.name,
+                      title: applocalizations!.name,
                       value: "Raje",
                       fSize: 16,
                     ),
@@ -166,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                     ),
                     SizedBox(height: 5),
                     BigTextColonText(
-                      title: applocalizations.mobileNumber,
+                      title: applocalizations.mobilenumber,
                       value: "7769032792",
                       fSize: 16,
                     ),
@@ -235,11 +225,11 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
                               //await prefs.clear(); // Clear shared preferences
-                                await Future.delayed(Duration(milliseconds: 1500));
+                              await Future.delayed(
+                                  Duration(milliseconds: 1500));
                               Navigator.pushAndRemoveUntil(
                                 context,
                                 MaterialPageRoute(
-                               
                                     builder: (_) => Loginscreen()),
                                 (Route<dynamic> route) =>
                                     false, // This removes all the previous routes

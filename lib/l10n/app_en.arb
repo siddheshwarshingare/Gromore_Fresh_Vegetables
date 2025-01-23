@@ -1,6 +1,6 @@
 {
     "add":"Add",
-    "appTitle":"Gromore Oraganic Fresh Vegetables",
+    "appTitle":"Gromore Oraganic Vegetables",
     "customerform":"Customer Form",
     "familyHeadName":"Family Head Name",
     "date":"Date",
@@ -46,7 +46,11 @@
     "addressDetails" : "Address Details",
     "vegetablesDetails" : "Vegetables Details",
     "employmentDetails" : "Employment Details",
-    "pleaseEnterName" : "Please Enter Name",
+    "pleaseEnterFamilyName" : "Please Enter Family Name",
+    "pleaseEnterHouseNumber" : "Please Enter House Number",
+    "pleaseEnterStreetNumber" : "Please Enter Street Number",
+    "pleaseEnterAddress" : "Please Enter Address",
+    "pleaseEnterMobileNumber" : "Please Enter Mobile Number",
     "todaysHouseCount" : "Today House Count",
     "todaysTargetLeft" : "Today Target Left",
     "history" : "History",
@@ -68,7 +72,8 @@
     "name" : "Agent Name",
     "emailId" : "Email Id",  
     "jodRole" : "Job Role",
-    "mobileNumber" : "Mobile No",
+    "employeeType" : "Employee Type",
+    "vegetableAndMilkDetails" : "vegetableAndMilkDetailsRoleJob ",
     "myProfile" : "My Profile",
     "areYouSureYouWantToLogout" : "Are you sure you want to logout?",
     "customerName" : "Customer Name",
@@ -80,6 +85,13 @@
     "unitManger" : "Unit Manager",
     "numberOfAgent" : "Number Of Agent",
     "pleaseEnterTheReasonForNotTakingGromoreMilk":"Please enter the Reason for not taking Gromore Milk",
-    "currentTakingMilk" : "Currently you are Taking from Where :  "
-  
+    "currentTakingMilk" : "Currently you are Taking from Where :  ",
+    "survey":"Survey",
+    "employementProfession":"Employement Profession",
+    "designation":"Designation"
+    
+       
+    
+
+   
 }
