@@ -8,7 +8,7 @@ import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 import 'package:provider/provider.dart'; // Import provider package
 
 Future<void> main() async {
-   WidgetsFlutterBinding.ensureInitialized();
+  WidgetsFlutterBinding.ensureInitialized();
   await Firebase.initializeApp();
   runApp(
     ChangeNotifierProvider(
@@ -27,6 +27,7 @@ class MyApp extends StatelessWidget {
     final locale = Provider.of<LocaleProvider>(context).locale;
 
     return MaterialApp(
+      debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
         AppLocalizations.delegate, // Add localization delegate
         GlobalMaterialLocalizations.delegate,

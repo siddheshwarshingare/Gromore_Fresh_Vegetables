@@ -1,7 +1,8 @@
-
 import 'package:flutter/material.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
+import 'package:sales_rep/createCustomerDetails.dart';
 import 'package:shared_preferences/shared_preferences.dart';
+import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class HistoryPageData extends StatefulWidget {
   final String agencyName;
@@ -20,12 +21,11 @@ class _HistoryPageState extends State<HistoryPageData> {
   bool isLoading = true;
   String currentusername = "";
 
-   Future<void> _loadDetails() async {
+  Future<void> _loadDetails() async {
     SharedPreferences prefs = await SharedPreferences.getInstance();
     setState(() {
-     currentusername = prefs.getString("username") ?? "";
+      currentusername = prefs.getString("username") ?? "";
     });
-   
   }
 
   @override
@@ -60,6 +60,7 @@ class _HistoryPageState extends State<HistoryPageData> {
 
   @override
   Widget build(BuildContext context) {
+    final applocalizations = AppLocalizations.of(context);
     return Scaffold(
       backgroundColor: Colors.blueGrey,
       appBar: AppBar(
@@ -68,14 +69,13 @@ class _HistoryPageState extends State<HistoryPageData> {
         centerTitle: false,
         toolbarHeight: 70,
         backgroundColor: Colors.blueAccent,
-        title:  Text(
+        title: Text(
           "$currentusername Survey's",
           style: TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
         ),
-        
       ),
       body: isLoading
           ? const Center(child: CircularProgressIndicator())
@@ -87,7 +87,7 @@ class _HistoryPageState extends State<HistoryPageData> {
                     final user = users[index];
                     return Container(
                       padding: EdgeInsets.all(10),
-                       margin: EdgeInsets.only(left: 10, right: 10, top: 15),
+                      margin: EdgeInsets.only(left: 10, right: 10, top: 15),
                       decoration: BoxDecoration(
                         border: Border.all(width: 2, color: Colors.black),
                         gradient: const LinearGradient(
@@ -101,93 +101,107 @@ class _HistoryPageState extends State<HistoryPageData> {
                       child: Column(
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          fetchDataflex(user, "Date", "date"),
-                          fetchDataflex(user, "Time", "time"),
+                          fetchDataflex(user, applocalizations!.date, "date"),
+                          fetchDataflex(user, applocalizations!.time, "time"),
                           Divider(),
-                          Text(
-                            "Family Details",
-                            style: TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold),
+                          SizedBox(
+                            height: 10,
                           ),
-                          fetchDataflex(user, "Head Name", "name"),
-                          fetchDataflex(user, "Fathers Name", "fathersName"),
-                          fetchDataflex(user, "Mothers Name", "mothersName"),
-                          fetchDataflex(user, "Spouse Name", "spouseName"),
+                          Center(
+                            child: Text(
+                              applocalizations!.familyDetails,
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          fetchDataflex(
+                              user, applocalizations!.familyHeadName, "name"),
                           Divider(),
-                          Text(
-                            "Address Details",
-                            style: TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold),
+                          Center(
+                            child: Text(
+                              applocalizations!.addressDetails,
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
-                          fetchDataflex(user, "House No.", "houseNo"),
-                          fetchDataflex(user, "Street No.", "street"),
-                          // fetchDataflex(user, "City", "city"),
-                          // fetchDataflex(user, "Pin Code", "pinCode"),
-                          fetchDataflex(user, "Address", "address"),
-                          fetchDataflex(user, "Mobile Number", "mobileNumber"),
+                          SizedBox(
+                            height: 10,
+                          ),
+                          fetchDataflex(
+                              user, applocalizations!.houseNumber, "houseNo"),
+                          fetchDataflex(
+                              user, applocalizations!.streetNo, "street"),
+                          fetchDataflex(
+                              user, applocalizations!.address, "address"),
+                          fetchDataflex(user, applocalizations!.mobilenumber,
+                              "mobileNumber"),
                           Divider(),
-                          Text(
-                            "Newspaper Details",
-                            style: TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold),
+                          Center(
+                            child: Text(
+                              applocalizations!.vegetablesDetails,
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
-                          /**
-                           * 'name': headname,
-        "fathersName": fathersName,
-        "offerNoReason": offerNoReason,
-        "jobType": jobType,
-        "govtJobType": govtJobtype,
-        "employmentTypeProffession": employmentTypeProfession,
-        "privateJobProfession": privatejobprofssion,
-        //"govtJobProfession": govtJobProffession,
-        "designaton": designaton,
-        "privateCompany": privateCompany,
-        "mothersName": mothersName,
-        "address": address,
-        "mobileNumber": mobileNumber,
-        "date": date,
-        "time": time,
-        "agencyName": name,
-        "houseNo": houseNo,
-        "street": street,
-        "intrestedToTakeOurVegetables": intrestedToTakeGromoreVegetables,
-        "resonForNotTakingOurVegetables":vegetablesReason,
-        "intrestedToTakeOurMilk" :intrestedToTakeOutMilk,
-        "reasonForNotTakingOutMilk": milkReason,
-        "employmentType": employmentType,
-        "latitude": lattitude,
-        "longitude": longitude,
-        'timestamp': FieldValue.serverTimestamp(),
-                           */
-                          fetchDataflex(user, "Intrested To Take Our Vegetables", "intrestedToTakeOurVegetables"),
                           fetchDataflex(
-                              user, "Reson For Not Taking Our Vegetables", "resonForNotTakingOurVegetables"),
-                          fetchDataflex(user, "Intrested To Take Our Milk", "intrestedToTakeOurMilk"),
-                          fetchDataflex(user, "Reason For Not Taking Out Milk", "reasonForNotTakingOutMilk"),
+                              user,
+                              applocalizations.shownIntrestToTakeVegetables,
+                              "intrestedToTakeOurVegetables"),
                           fetchDataflex(
-                              user, "Reason for Unsubscription", "reason"),
-                          fetchDataflex(user, "NewsPaper Name", "newspaper"),
+                              user,
+                              applocalizations
+                                  .reasonForNotTakingGromoreVegetables,
+                              "resonForNotTakingOurVegetables"),
                           fetchDataflex(
-                              user, "Reason for No newspaper", "reasonNoRead"),
+                              user,
+                              applocalizations.shownIntrestToTakeMilk,
+                              "intrestedToTakeOurMilk"),
                           fetchDataflex(
-                              user, "15 days Offer rejected ", "offerNoReason"),
+                              user,
+                              applocalizations.reasonForNotTakingGromoreMilk,
+                              "reasonForNotTakingOutMilk"),
                           Divider(),
-                          Text(
-                            "Employment Details",
-                            style: TextStyle(
-                                color: Colors.red, fontWeight: FontWeight.bold),
+                          Center(
+                            child: Text(
+                              applocalizations.employmentDetails,
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                            ),
                           ),
-                          fetchDataflex(user, "Employed", "employmentType"),
-                          fetchDataflex(user, "Employment", "jobType"),
-                          fetchDataflex(user, "Employment Profession",
+                          fetchDataflex(user, applocalizations.employed,
+                              "employmentType"),
+                          fetchDataflex(
+                              user, applocalizations.employeeType, "jobType"),
+                          fetchDataflex(
+                              user,
+                              applocalizations.employementProfession,
                               "employmentTypeProfession"),
-                          fetchDataflex(user, "Govt Job Type", "govtJobType"),
-                          fetchDataflex(user, "Govt Job Profession",
+                          fetchDataflex(user, applocalizations.govtjobtype,
+                              "govtJobType"),
+                          fetchDataflex(user, applocalizations.governmentjob,
                               "govtJobProffession"),
-                          fetchDataflex(user, "Private Job Profession",
+                          height(),
+                          Center(
+                            child: Text(
+                              applocalizations.privatejob,
+                              style: TextStyle(
+                                  color: Colors.red,
+                                  fontWeight: FontWeight.bold),
+                            ),
+                          ),
+                          fetchDataflex(user, applocalizations.privatejob,
                               "privateJobProfession"),
-                          fetchDataflex(user, "Designation", "designaton"),
-                          fetchDataflex(user, "Company Name", "privateCompany"),
+                          fetchDataflex(
+                              user, applocalizations.designation, "designaton"),
+                          fetchDataflex(user, applocalizations.companyname,
+                              "privateCompany"),
                         ],
                       ),
                     );
@@ -195,6 +209,7 @@ class _HistoryPageState extends State<HistoryPageData> {
                 ),
     );
   }
+
   Widget fetchDataflex(Map<dynamic, dynamic> user, String title, String value) {
     var displayValue = user[value];
     if (displayValue is bool) {

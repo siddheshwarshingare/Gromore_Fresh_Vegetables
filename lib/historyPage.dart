@@ -52,7 +52,7 @@ class _HistoryPageState extends State<HistoryPage> {
       // Load names and mobiles as before
       _names = prefs.getStringList('names') ?? [];
       _mobiles = prefs.getStringList('mobiles') ?? [];
-       // Load village name
+      // Load village name
       _villageName = prefs.getString('village') ?? "Unknown";
       street = prefs.getString('street') ?? "Unknown";
 
@@ -139,7 +139,7 @@ class _HistoryPageState extends State<HistoryPage> {
                           fSize: 18,
                         ),
                         TextColonText(
-                          title: applocalizations.mobileNumber,
+                          title: applocalizations.mobilenumber,
                           value: _mobiles[index],
                           fSize: 18,
                         ),
@@ -153,10 +153,12 @@ class _HistoryPageState extends State<HistoryPage> {
                           value: _longitude.toString(),
                           fSize: 18,
                         ),
-                         TextColonText(
-                            title: applocalizations.street, value: street.toString()),
                         TextColonText(
-                            title: applocalizations.village, value: _villageName.toString()),
+                            title: applocalizations.street,
+                            value: street.toString()),
+                        TextColonText(
+                            title: applocalizations.village,
+                            value: _villageName.toString()),
                       ],
                     ),
                   );
