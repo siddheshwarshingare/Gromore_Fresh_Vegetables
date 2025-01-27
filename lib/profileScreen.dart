@@ -1,4 +1,3 @@
-import 'dart:io';
 import 'dart:convert';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -69,9 +68,10 @@ class _ProfileScreenState extends State<ProfileScreen> {
     final applocalizations = AppLocalizations.of(context);
     return Scaffold(
       appBar: AppBar(
-        foregroundColor: Colors.white,
-        toolbarHeight: 70,
-        backgroundColor: Colors.blueAccent,
+        foregroundColor: Colors.black,
+        toolbarHeight: 80,
+        backgroundColor: Colors.purpleAccent.shade100,
+        actions: [Icon(Icons.abc_outlined)],
         title: Text(
           applocalizations!.myProfile,
           style: TextStyle(fontSize: 24, fontWeight: FontWeight.bold),
@@ -81,89 +81,71 @@ class _ProfileScreenState extends State<ProfileScreen> {
         children: [
           Column(
             children: [
-              const SizedBox(height: 20),
-              Container(
-                width: 150,
-                height: 150,
-                decoration: BoxDecoration(
-                  shape: BoxShape.circle,
-                  border: Border.all(color: Colors.black, width: 3),
+              ClipPath(
+                clipper: CustomClipPath(),
+                child: Container(
+                  decoration: const BoxDecoration(
+                    image: DecorationImage(
+                      image: AssetImage('assets/Images/org1.jpg'),
+                      fit: BoxFit.cover,
+                    ),
+                  ),
+                  height: MediaQuery.of(context).size.height * 0.5,
                 ),
-                // child: base64Image != null
-                //     ? ClipOval(
-                //         child: kIsWeb
-                //             ? Image.memory(
-                //                 webImage!,
-                //                 fit: BoxFit.cover,
-                //                 width: 150,
-                //                 height: 150,
-                //               )
-                //             : Image.file(
-                //                 File(base64Image!),
-                //                 fit: BoxFit.cover,
-                //                 width: 150,
-                //                 height: 150,
-                //               ),
-                //       )
-                //     : const Center(
-                //         child: Icon(
-                //           Icons.person,
-                //           size: 100,
-                //         ),
-                //       ),
               ),
+
               const SizedBox(height: 20),
               const Divider(color: Colors.grey),
               const SizedBox(height: 10),
               // Profile Details Section
-              Container(
-                height: 250,
-                padding:
-                    const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-                margin: const EdgeInsets.symmetric(horizontal: 15),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 247, 244, 244),
-                  borderRadius: BorderRadius.vertical(
-                    top: Radius.circular(20),
-                  ),
-                  boxShadow: [
-                    BoxShadow(
-                      color: Colors.black,
-                      blurRadius: 1,
-                      spreadRadius: 1,
-                      offset: Offset(5, 5),
-                    ),
-                  ],
-                ),
-                child: Column(
-                  children: [
-                    BigTextColonText(
-                      title: applocalizations!.name,
-                      value: "Raje",
-                      fSize: 16,
-                    ),
-                    SizedBox(height: 5),
-                    BigTextColonText(
-                      title: applocalizations.emailId,
-                      value: "raje@",
-                      fSize: 16,
-                    ),
-                    SizedBox(height: 5),
-                    BigTextColonText(
-                      title: applocalizations.jodRole,
-                      value: "Gromore Farming Agent",
-                      fSize: 16,
-                    ),
-                    SizedBox(height: 5),
-                    BigTextColonText(
-                      title: applocalizations.mobilenumber,
-                      value: "7769032792",
-                      fSize: 16,
-                    ),
-                  ],
-                ),
-              ),
-              const Spacer(),
+              // Container(
+              //   height: 250,
+              //   padding:
+              //       const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
+              //   margin: const EdgeInsets.symmetric(horizontal: 15),
+              //   decoration: const BoxDecoration(
+              //     color: Color.fromARGB(255, 247, 244, 244),
+              //     borderRadius: BorderRadius.vertical(
+              //       top: Radius.circular(20),
+              //     ),
+              //     boxShadow: [
+              //       BoxShadow(
+              //         color: Colors.black,
+              //         blurRadius: 1,
+              //         spreadRadius: 1,
+              //         offset: Offset(5, 5),
+              //       ),
+              //     ],
+              //   ),
+              //   child: Column(
+              //     children: [
+              //       BigTextColonText(
+              //         title: applocalizations!.name,
+              //         value: "Raje",
+              //         fSize: 16,
+              //       ),
+              //       SizedBox(height: 5),
+              //       BigTextColonText(
+              //         title: applocalizations.emailId,
+              //         value: "raje@",
+              //         fSize: 16,
+              //       ),
+              //       SizedBox(height: 5),
+              //       BigTextColonText(
+              //         title: applocalizations.jodRole,
+              //         value: "Gromore Farming Agent",
+              //         fSize: 16,
+              //       ),
+              //       SizedBox(height: 5),
+              //       BigTextColonText(
+              //         title: applocalizations.mobilenumber,
+              //         value: "7769032792",
+              //         fSize: 16,
+              //       ),
+              //     ],
+              //   ),
+              // ),
+              //const Spacer(),
               Container(
                 width: double.infinity,
                 margin: const EdgeInsets.all(20),
@@ -271,4 +253,21 @@ class _ProfileScreenState extends State<ProfileScreen> {
       },
     );
   }
+}
+
+//clipath class...
+class CustomClipPath extends CustomClipper<Path> {
+  @override
+  Path getClip(Size size) {
+    Path path = Path();
+    path.lineTo(0, size.height * 0.8);
+    path.quadraticBezierTo(
+        size.width / 2, size.height, size.width, size.height * 0.8);
+    path.lineTo(size.width, 0);
+    path.close();
+    return path;
+  }
+
+  @override
+  bool shouldReclip(CustomClipper<Path> oldClipper) => false;
 }

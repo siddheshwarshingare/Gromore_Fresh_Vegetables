@@ -364,10 +364,10 @@ class DashBoardOfUnitManager extends StatefulWidget {
 
 class _DashBoardOfUnitManagerState extends State<DashBoardOfUnitManager> {
   int housesCount = 1000; // This will be updated with the total surveys
-  int housesVisitedCount = 0;
-  int eenaduSubscriptionCount = 0;
-  int willingToChangeCount = 0;
-  int notInterestedCount = 0;
+  int notintrestedToTakeMilk = 0;
+  int intrestedToTakeMilk = 0;
+  int intrestedToTakeVegetables = 0;
+  int notInterestedToTakeVegetables = 0;
   int numberOfAgents = 0;
   List<String> agentNames = [];
   String image = "";
@@ -381,8 +381,10 @@ class _DashBoardOfUnitManagerState extends State<DashBoardOfUnitManager> {
 
       Set<String> uniqueAgencies = Set();
       int totalSurveys = snapshot.docs.length;
-      int eenaduTrue = 0;
-      int offerTrue = 0;
+      int intrestedVegetable = 0;
+      int intrestedMilk = 0;
+      int notintrestedVegetable = 0;
+      int notintrestedMilk = 0;
       int offerFalse = 0;
 
       for (var doc in snapshot.docs) {
@@ -392,23 +394,28 @@ class _DashBoardOfUnitManagerState extends State<DashBoardOfUnitManager> {
           uniqueAgencies.add(data['agencyName']);
         }
 
-        if (data['eenaduNews'] == true) {
-          eenaduTrue++;
+        if (data['intrestedToTakeOurVegetables'] == true) {
+          intrestedVegetable++;
+        } else {
+          notintrestedVegetable++;
         }
-
-        if (data['15Daysoffer'] == true) {
-          offerTrue++;
-        } else if (data['15Daysoffer'] == false) {
-          offerFalse++;
+        if (data['intrestedToTakeOurMilk'] == true) {
+          intrestedMilk++;
+        } else {
+          notintrestedMilk++;
         }
       }
+      // "intrestedToTakeOurVegetables": intrestedToTakeGromoreVegetables,
+      // "resonForNotTakingOurVegetables": vegetablesReason,
+      // "intrestedToTakeOurMilk": intrestedToTakeOutMilk,
+      // "reasonForNotTakingOutMilk": milkReason,
 
       setState(() {
         housesCount = 1000; // Keeping this as 1000 as per your request
-        housesVisitedCount = totalSurveys;
-        eenaduSubscriptionCount = eenaduTrue;
-        willingToChangeCount = offerTrue;
-        notInterestedCount = offerFalse;
+        notintrestedToTakeMilk = notintrestedMilk;
+        intrestedToTakeMilk = intrestedMilk;
+        intrestedToTakeVegetables = intrestedVegetable;
+        notInterestedToTakeVegetables = notintrestedVegetable;
         numberOfAgents = uniqueAgencies.length;
         agentNames = uniqueAgencies.toList();
         print("11111111111111111111111111${uniqueAgencies}");
@@ -426,10 +433,10 @@ class _DashBoardOfUnitManagerState extends State<DashBoardOfUnitManager> {
 
   @override
   Widget build(BuildContext context) {
-    print("Interested users count: $willingToChangeCount");
-    print("Not interested users count: $notInterestedCount");
-    print("Subscribed users count: $eenaduSubscriptionCount");
-    print("Houses Visited users count: $housesVisitedCount");
+    print("Interested u: $intrestedToTakeVegetables");
+    print("Not interested : $notInterestedToTakeVegetables");
+    print("Subscribed users count: $intrestedToTakeMilk");
+    print("Houses Visited users count: $notintrestedToTakeMilk");
     final applocalizations = AppLocalizations.of(context);
     if (applocalizations == null) {
       return const Scaffold(
@@ -534,19 +541,22 @@ class _DashBoardOfUnitManagerState extends State<DashBoardOfUnitManager> {
                 );
               },
               child: cardMultioptionsColoredContainer(
-                  Colors.white,
-                  Colors.lightGreen,
-                  "Subscription Details",
-                  "Houses Count",
-                  housesCount.toString(),
-                  "Eenadu subscription",
-                  eenaduSubscriptionCount.toString(),
-                  "Willing to change",
-                  willingToChangeCount.toString(),
-                  "Not Interested",
-                  notInterestedCount.toString(),
-                  "Houses Visited",
-                  housesVisitedCount.toString()),
+                Colors.white,
+                Colors.lightGreen,
+                "Subscription Details",
+                "Houses Count",
+                housesCount.toString(),
+                "Intrested In Vegetables",
+                intrestedToTakeVegetables.toString(),
+                "Not Intrested In Vegetables",
+                notInterestedToTakeVegetables.toString(),
+                "Intrested In Milk",
+                intrestedToTakeMilk.toString(),
+                "Not Intrested In Milk",
+                notintrestedToTakeMilk.toString(),
+                // "Houses Visited",
+                // housesVisitedCount.toString(),
+              ),
             ),
           ],
         ),

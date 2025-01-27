@@ -71,7 +71,7 @@ class _HistoryPageState extends State<HistoryPageData> {
         backgroundColor: Colors.blueAccent,
         title: Text(
           "$currentusername Survey's",
-          style: TextStyle(
+          style: const TextStyle(
             fontSize: 24,
             fontWeight: FontWeight.bold,
           ),
@@ -86,8 +86,9 @@ class _HistoryPageState extends State<HistoryPageData> {
                   itemBuilder: (context, index) {
                     final user = users[index];
                     return Container(
-                      padding: EdgeInsets.all(10),
-                      margin: EdgeInsets.only(left: 10, right: 10, top: 15),
+                      padding: const EdgeInsets.all(10),
+                      margin:
+                          const EdgeInsets.only(left: 10, right: 10, top: 15),
                       decoration: BoxDecoration(
                         border: Border.all(width: 2, color: Colors.black),
                         gradient: const LinearGradient(
@@ -103,33 +104,33 @@ class _HistoryPageState extends State<HistoryPageData> {
                         children: [
                           fetchDataflex(user, applocalizations!.date, "date"),
                           fetchDataflex(user, applocalizations!.time, "time"),
-                          Divider(),
-                          SizedBox(
+                          const Divider(),
+                          const SizedBox(
                             height: 10,
                           ),
                           Center(
                             child: Text(
                               applocalizations!.familyDetails,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           fetchDataflex(
                               user, applocalizations!.familyHeadName, "name"),
-                          Divider(),
+                          const Divider(),
                           Center(
                             child: Text(
                               applocalizations!.addressDetails,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold),
                             ),
                           ),
-                          SizedBox(
+                          const SizedBox(
                             height: 10,
                           ),
                           fetchDataflex(
@@ -140,11 +141,11 @@ class _HistoryPageState extends State<HistoryPageData> {
                               user, applocalizations!.address, "address"),
                           fetchDataflex(user, applocalizations!.mobilenumber,
                               "mobileNumber"),
-                          Divider(),
+                          const Divider(),
                           Center(
                             child: Text(
                               applocalizations!.vegetablesDetails,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -166,11 +167,11 @@ class _HistoryPageState extends State<HistoryPageData> {
                               user,
                               applocalizations.reasonForNotTakingGromoreMilk,
                               "reasonForNotTakingOutMilk"),
-                          Divider(),
+                          const Divider(),
                           Center(
                             child: Text(
                               applocalizations.employmentDetails,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -187,11 +188,11 @@ class _HistoryPageState extends State<HistoryPageData> {
                               "govtJobType"),
                           fetchDataflex(user, applocalizations.governmentjob,
                               "govtJobProffession"),
-                          height(),
+                          const height(),
                           Center(
                             child: Text(
                               applocalizations.privatejob,
-                              style: TextStyle(
+                              style: const TextStyle(
                                   color: Colors.red,
                                   fontWeight: FontWeight.bold),
                             ),
@@ -223,7 +224,7 @@ class _HistoryPageState extends State<HistoryPageData> {
             flex: 4,
             child: Text(
               title,
-              style: TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
+              style: const TextStyle(fontSize: 14, fontWeight: FontWeight.bold),
             ),
           ),
           const Expanded(
@@ -234,7 +235,8 @@ class _HistoryPageState extends State<HistoryPageData> {
           Expanded(
             flex: 4,
             child: Text(displayValue?.toString() ?? 'N/A',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                style:
+                    const TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
           ),
         ],
       ),

@@ -70,21 +70,23 @@ class _DashBoardState extends State<DashBoard> {
       int gromoreVegetablesIntrestesPeople = 0;
       int gromoreVegetablesNotIntrestesPeople = 0;
       int milkIntrestesPeople = 0;
-      int milkNotIntrestesPeople = 0;
-
+      int milkNotIntrestesPeople = 0; 
       // Count 'true' and 'false' for eenaduNews
-      for (var user in users) {
-        if (user['eenaduNews'] == true) {
+      for (var doc in snapshot.docs) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+
+        if (data['agencyName'] != null) {
+          uniqueAgencies.add(data['agencyName']);
+        }
+
+        if (data['intrestedToTakeOurVegetables'] == true) {
           gromoreVegetablesIntrestesPeople++;
-        } else if (user['eenaduNews'] == false) {
+        } else {
           gromoreVegetablesNotIntrestesPeople++;
         }
-      }
-      // count 'offertrue'
-      for (var user in users) {
-        if (user['15Daysoffer'] == true) {
+        if (data['intrestedToTakeOurMilk'] == true) {
           milkIntrestesPeople++;
-        } else if (user['15Daysoffer'] == false) {
+        } else {
           milkNotIntrestesPeople++;
         }
       }
