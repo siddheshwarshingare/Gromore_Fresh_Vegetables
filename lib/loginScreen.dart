@@ -1,7 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sales_rep/agentDashBoard.dart';
-import 'package:shared_preferences/shared_preferences.dart';
+import 'package:sales_rep/dashBoardOfUnitManager.dart';
+
 import 'package:slider_button/slider_button.dart';
 
 class Loginscreen extends StatefulWidget {
@@ -17,14 +18,12 @@ class _LoginscreenState extends State<Loginscreen> {
   final _formKey = GlobalKey<FormState>();
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
-  bool _isLoading = false;
   bool _isPasswordVisible = false;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.grey.shade300,
-      // resizeToAvoidBottomInset: false,
+      backgroundColor: const Color.fromARGB(255, 219, 217, 217),
       body: Stack(
         children: [
           ClipPath(
@@ -32,154 +31,162 @@ class _LoginscreenState extends State<Loginscreen> {
             child: Container(
               decoration: const BoxDecoration(
                 image: DecorationImage(
-                  image: AssetImage(
-                      'assets/Images/org3.jpeg'), // Update to your image path
+                  image: AssetImage('assets/Images/org3.jpeg'),
                   fit: BoxFit.cover,
                 ),
               ),
               height: MediaQuery.of(context).size.height * 0.5,
             ),
           ),
-          Center(
-            child: Form(
-              key: _formKey,
-              child: Container(
-                margin: const EdgeInsets.all(50),
-                padding: const EdgeInsets.all(20),
-                decoration: const BoxDecoration(
-                  color: Color.fromARGB(255, 83, 140, 106),
-                  borderRadius: BorderRadius.all(
-                    Radius.circular(12.0),
-                  ),
-                ),
-                child: Column(
-                  mainAxisSize: MainAxisSize.min,
-                  mainAxisAlignment: MainAxisAlignment.center,
-                  crossAxisAlignment: CrossAxisAlignment.start,
-                  children: [
-                    const SizedBox(
-                      height: 30,
-                    ),
-                    TextFormField(
-                      controller: _usernameController,
-                      decoration: InputDecoration(
-                        labelText: 'Username',
-                        labelStyle: const TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              const BorderSide(color: Colors.black, width: 2),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              const BorderSide(color: Colors.black, width: 2),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                              color: Colors.redAccent, width: 1),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              const BorderSide(color: Colors.black, width: 2),
-                        ),
+          Column(
+            children: [
+              const Spacer(
+                flex: 3,
+              ),
+              Center(
+                child: Form(
+                  key: _formKey,
+                  child: Container(
+                    margin: const EdgeInsets.all(35),
+                    padding: const EdgeInsets.all(14),
+                    decoration: const BoxDecoration(
+                      color: Color.fromARGB(255, 83, 140, 106),
+                      borderRadius: BorderRadius.all(
+                        Radius.circular(12.0),
                       ),
-                      keyboardType: TextInputType.emailAddress,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your username';
-                        }
-                        return null;
-                      },
                     ),
-                    const SizedBox(height: 20),
-                    TextFormField(
-                      controller: _passwordController,
-                      decoration: InputDecoration(
-                        labelText: 'Password',
-                        labelStyle: const TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
-                        enabledBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              const BorderSide(color: Colors.black, width: 2),
-                        ),
-                        errorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide: const BorderSide(
-                              color: Colors.redAccent, width: 1),
-                        ),
-                        focusedErrorBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              const BorderSide(color: Colors.black, width: 2),
-                        ),
-                        focusedBorder: OutlineInputBorder(
-                          borderRadius: BorderRadius.circular(10),
-                          borderSide:
-                              const BorderSide(color: Colors.black, width: 2),
-                        ),
-                        suffixIcon: IconButton(
-                          icon: Icon(
-                            _isPasswordVisible
-                                ? Icons.visibility
-                                : Icons.visibility_off,
-                            color: Colors.black,
-                          ),
-                          onPressed: _togglePasswordVisibility,
-                        ),
-                      ),
-                      obscureText: !_isPasswordVisible,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null;
-                      },
-                    ),
-                    const SizedBox(height: 20),
-                    Center(
-                      child: SliderButton(
-                          action: () async {
-                            HapticFeedback.mediumImpact();
-                            String username = _usernameController.text;
-                            String password = _passwordController.text;
-
-                            if (_formKey.currentState!.validate()) {
-                              showDialog(
-                                context: context,
-                                barrierDismissible: false,
-                                builder: (BuildContext context) {
-                                  return Text('');
-                                },
-                              );
-
-                              await Future.delayed(const Duration(seconds: 1));
-                              Navigator.of(context).pop();
-
-                              _loginMethod(username, password);
-                            }
-
-                            return false;
-                          },
-                          label: Center(
-                            child: Text(
-                              "Login",
-                              style: TextStyle(
-                                  color: Color.fromARGB(255, 212, 113, 113),
-                                  fontWeight: FontWeight.bold,
-                                  fontSize: 20),
+                    child: Column(
+                      mainAxisSize: MainAxisSize.min,
+                      mainAxisAlignment: MainAxisAlignment.center,
+                      crossAxisAlignment: CrossAxisAlignment.start,
+                      children: [
+                        const SizedBox(height: 30),
+                        TextFormField(
+                          controller: _usernameController,
+                          decoration: InputDecoration(
+                            labelText: 'Username',
+                            labelStyle: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  color: Colors.redAccent, width: 1),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
                             ),
                           ),
-                          icon: const Icon(Icons.swipe_left_outlined)),
-                    )
-                  ],
+                          keyboardType: TextInputType.emailAddress,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your username';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        TextFormField(
+                          controller: _passwordController,
+                          decoration: InputDecoration(
+                            labelText: 'Password',
+                            labelStyle: const TextStyle(
+                                color: Colors.black,
+                                fontWeight: FontWeight.bold),
+                            enabledBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                            ),
+                            errorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  color: Colors.redAccent, width: 1),
+                            ),
+                            focusedErrorBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                            ),
+                            focusedBorder: OutlineInputBorder(
+                              borderRadius: BorderRadius.circular(10),
+                              borderSide: const BorderSide(
+                                  color: Colors.black, width: 2),
+                            ),
+                            suffixIcon: IconButton(
+                              icon: Icon(
+                                _isPasswordVisible
+                                    ? Icons.visibility
+                                    : Icons.visibility_off,
+                                color: Colors.black,
+                              ),
+                              onPressed: _togglePasswordVisibility,
+                            ),
+                          ),
+                          obscureText: !_isPasswordVisible,
+                          validator: (value) {
+                            if (value == null || value.isEmpty) {
+                              return 'Please enter your password';
+                            }
+                            return null;
+                          },
+                        ),
+                        const SizedBox(height: 20),
+                        Center(
+                          child: SliderButton(
+                              action: () async {
+                                HapticFeedback.mediumImpact();
+                                String username = _usernameController.text;
+                                String password = _passwordController.text;
+
+                                if (_formKey.currentState!.validate()) {
+                                  showDialog(
+                                    context: context,
+                                    barrierDismissible: false,
+                                    builder: (BuildContext context) {
+                                      return Text('');
+                                    },
+                                  );
+
+                                  await Future.delayed(
+                                      const Duration(seconds: 1));
+                                  Navigator.of(context).pop();
+
+                                  _loginMethod(username, password);
+                                }
+
+                                return false;
+                              },
+                              label: const Center(
+                                child: Text(
+                                  "Login",
+                                  style: TextStyle(
+                                      color: Color.fromARGB(255, 212, 113, 113),
+                                      fontWeight: FontWeight.bold,
+                                      fontSize: 20),
+                                ),
+                              ),
+                              icon: const Icon(Icons.swipe_left_outlined)),
+                        )
+                      ],
+                    ),
+                  ),
                 ),
               ),
-            ),
+              const Spacer(),
+            ],
           ),
         ],
       ),
@@ -193,18 +200,13 @@ class _LoginscreenState extends State<Loginscreen> {
   }
 
   _loginMethod(String username, String password) async {
-    setState(() {
-      // SharedPreferences prefs = await SharedPreferences.getInstance();
-      // prefs.setString("username", username);
-      // prefs.setString("password", username);
-      _isLoading = true;
-    });
+    setState(() {});
     await Future.delayed(const Duration(seconds: 1));
     if (username == "Raje" && password == "Raje") {
       return Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (_) => DashBoard(),
+          builder: (_) => const DashBoard(),
         ),
       );
     }
@@ -212,13 +214,11 @@ class _LoginscreenState extends State<Loginscreen> {
       return Navigator.pushReplacement(
         context,
         MaterialPageRoute(
-          builder: (_) => const Placeholder(),
+          builder: (_) => DashBoardOfUnitManager(),
         ),
       );
     } else {
-      setState(() {
-        _isLoading = false;
-      });
+      setState(() {});
       ScaffoldMessenger.of(context).showSnackBar(
         const SnackBar(
           shape: RoundedRectangleBorder(

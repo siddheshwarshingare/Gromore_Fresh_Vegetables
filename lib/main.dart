@@ -29,14 +29,14 @@ class MyApp extends StatelessWidget {
     return MaterialApp(
       debugShowCheckedModeBanner: false,
       localizationsDelegates: const [
-        AppLocalizations.delegate, // Add localization delegate
+        AppLocalizations.delegate,
         GlobalMaterialLocalizations.delegate,
         GlobalWidgetsLocalizations.delegate,
         GlobalCupertinoLocalizations.delegate,
       ],
       supportedLocales: const [
-        Locale('en'), // English
-        Locale('te'), // Telugu (add more as needed)
+        Locale('en'),
+        Locale('te'),
       ],
       locale: locale, // Set the current locale
       theme: ThemeData(

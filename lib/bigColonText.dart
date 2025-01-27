@@ -12,7 +12,7 @@ class BigTextColonText extends StatelessWidget {
     return Row(
       children: [
         Expanded(
-            flex: 2,
+            flex: 5,
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               children: [
@@ -22,7 +22,7 @@ class BigTextColonText extends StatelessWidget {
                       fontWeight: FontWeight.w400, fontSize: 16),
                 ),
                 Text(
-                  " :  ",
+                  " :      ",
                   style:
                       TextStyle(fontWeight: FontWeight.bold, fontSize: fSize),
                 )
