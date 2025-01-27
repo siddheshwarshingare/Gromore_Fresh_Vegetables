@@ -5,7 +5,8 @@ import 'package:sales_rep/agentDashBoard.dart';
 import 'package:sales_rep/historyPage.dart';
 import 'package:sales_rep/loginScreen.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
-import 'package:provider/provider.dart'; // Import provider package
+import 'package:provider/provider.dart';
+import 'package:sales_rep/splashscreen.dart'; // Import provider package
 
 Future<void> main() async {
   WidgetsFlutterBinding.ensureInitialized();
@@ -43,7 +44,7 @@ class MyApp extends StatelessWidget {
         colorScheme: ColorScheme.fromSeed(seedColor: Colors.deepPurple),
         useMaterial3: true,
       ),
-      home: Loginscreen(), // Login screen as the entry point
+      home: SplashScreen(), // Login screen as the entry point
     );
   }
 }

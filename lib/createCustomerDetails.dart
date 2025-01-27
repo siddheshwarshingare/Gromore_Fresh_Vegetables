@@ -5,6 +5,7 @@ import 'package:flutter/services.dart';
 import 'package:geolocator/geolocator.dart';
 import 'package:intl/intl.dart';
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
+import 'package:sales_rep/agentDashBoard.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
 class CreateCustomerDeatils extends StatefulWidget {
@@ -31,7 +32,67 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
   bool _isLoading = false;
   String? selectedJobType;
   String? selectedGovtJobType;
-  String currentusername = '';
+
+  String name = '';
+
+  void getName() async {
+    SharedPreferences prefs = await SharedPreferences.getInstance();
+
+    setState(() {
+      name = prefs.getString("userName") ?? '';
+    });
+  }
+
+  Future<String?> fetchUsersName() async {
+    try {
+      // Fetch user details from Firestore
+      DocumentSnapshot userSnapshot = await FirebaseFirestore.instance
+          .collection('userCredential') // Adjust collection name if necessary
+          .doc('userName') // Replace with the actual document ID
+          .get();
+
+      if (userSnapshot.exists) {
+        Map<String, dynamic> userData =
+            userSnapshot.data() as Map<String, dynamic>;
+        return userData['userName']; // Return the name field
+      }
+      return null;
+    } catch (e) {
+      print('Error fetching user name: $e');
+      return null;
+    }
+  }
+
+  Future<void> fetchDataToFirebase() async {
+    String agencyName = '';
+    try {
+      QuerySnapshot snapshot = await FirebaseFirestore.instance
+          .collection('UserData')
+          .where('agencyName', isEqualTo: agencyName)
+          .get();
+
+      // Extract only specific fields you need
+      List<Map<String, dynamic>> users = [];
+      List<Map<String, dynamic>> fetchedUsers = snapshot.docs.map((doc) {
+        Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
+        return {
+          'name': data['name'], // Replace 'name' with the fields you want
+          'email': data['email'],
+          // Add other fields here
+        };
+      }).toList();
+
+      setState(() {
+        users = fetchedUsers;
+        _isLoading = false;
+      });
+    } catch (e) {
+      print("Error fetching data: $e");
+      setState(() {
+        _isLoading = false;
+      });
+    }
+  }
 
   //controllers...
 
@@ -78,6 +139,12 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
   }
 
   @override
+  void initState() {
+    super.initState();
+    getName();
+  }
+
+  @override
   Widget build(BuildContext context) {
     final applocalizations = AppLocalizations.of(context);
     if (applocalizations == null) {
@@ -116,7 +183,7 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                     border: Border.all(width: 2),
                   ),
                   child: Text(
-                    "$currentusername Agency",
+                    name,
                     style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold),
                   ),
                 ),
@@ -131,31 +198,30 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
                         style: const TextStyle(
                             fontSize: 16, fontWeight: FontWeight.bold),
                         decoration: InputDecoration(
-                            fillColor: const Color.fromARGB(255, 240, 236, 222),
-                            filled: true,
-                            contentPadding: const EdgeInsets.all(15),
-                            enabledBorder: const OutlineInputBorder(
-                              borderRadius: BorderRadius.all(
-                                Radius.circular(10),
-                              ),
-                              borderSide:
-                                  BorderSide(color: Colors.black, width: 2),
+                          fillColor: const Color.fromARGB(255, 240, 236, 222),
+                          filled: true,
+                          contentPadding: const EdgeInsets.all(15),
+                          enabledBorder: const OutlineInputBorder(
+                            borderRadius: BorderRadius.all(
+                              Radius.circular(10),
                             ),
-                            focusedBorder: OutlineInputBorder(
-                              borderSide: const BorderSide(
-                                color:
-                                    Colors.black, // Border color when focused
-                                width:
-                                    2.0, // Increased border width when focused
-                              ),
-                              borderRadius: BorderRadius.circular(10),
+                            borderSide:
+                                BorderSide(color: Colors.black, width: 2),
+                          ),
+                          focusedBorder: OutlineInputBorder(
+                            borderSide: const BorderSide(
+                              color: Colors.black, // Border color when focused
+                              width: 2.0, // Increased border width when focused
                             ),
-                            labelText: applocalizations.date,
-                            // errorText: _dateError ? 'Please select a date' : null,
-                            labelStyle: const TextStyle(
-                                color: Colors.black38,
-                                fontWeight: FontWeight.bold,
-                                fontSize: 14)),
+                            borderRadius: BorderRadius.circular(10),
+                          ),
+                          labelText: applocalizations.date,
+                          // errorText: _dateError ? 'Please select a date' : null,
+                          labelStyle: const TextStyle(
+                              color: Colors.black38,
+                              fontWeight: FontWeight.bold,
+                              fontSize: 14),
+                        ),
                       ),
                     ),
                     const SizedBox(
@@ -802,8 +868,20 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
             if (_formKey.currentState?.validate() ?? false) {
               await _getCurrentLocation();
               await Future.delayed(const Duration(milliseconds: 1000));
-              storeDataToFirebase();
-              await _saveDetails();
+              storeDataToFirebase().then((_) => _saveDetails()).then((_) {
+                DashBoard();
+                // Here you can add logic to refresh the previous class or perform any other task
+                // Navigator.pop(context, true);
+
+                // Pass a value to indicate success
+              }).catchError((error) {
+                // Handle any error that occurs in the process
+                print("Error occurred: $error");
+              }).whenComplete(() {
+                setState(() {
+                  _isLoading = false;
+                });
+              });
             } else {
               setState(() {
                 _isLoading = false;
@@ -956,7 +1034,7 @@ class _CreateCustomerDeatilsState extends State<CreateCustomerDeatils> {
   }
 
   Future<void> storeDataToFirebase() async {
-    String name = currentusername.toString();
+    print("object 2  2222222 2 2  $name");
     String headname = _nameController.text;
     String fathersName = _fatherNameController.text;
     String vegetablesReason = _vegetablesReasonController.text;

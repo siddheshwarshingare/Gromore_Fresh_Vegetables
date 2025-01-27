@@ -1,7 +1,9 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:sales_rep/agentDashBoard.dart';
 import 'package:sales_rep/dashBoardOfUnitManager.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
 import 'package:slider_button/slider_button.dart';
 
@@ -19,6 +21,26 @@ class _LoginscreenState extends State<Loginscreen> {
   final TextEditingController _usernameController = TextEditingController();
   final TextEditingController _passwordController = TextEditingController();
   bool _isPasswordVisible = false;
+  FirebaseFirestore firestore = FirebaseFirestore.instance;
+
+  Future<void> storeDataToFirebase() async {
+    String username = _usernameController.text;
+    String password = _passwordController.text;
+    try {
+      await firestore.collection('userCredential').doc(username).set({
+        'userName': username,
+        'passWord': password,
+        'timestamp': FieldValue.serverTimestamp(),
+      });
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Data added successfully!')),
+      );
+    } catch (e) {
+      ScaffoldMessenger.of(context).showSnackBar(
+        SnackBar(content: Text('Failed to add data: $e')),
+      );
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -163,7 +185,7 @@ class _LoginscreenState extends State<Loginscreen> {
                                   await Future.delayed(
                                       const Duration(seconds: 1));
                                   Navigator.of(context).pop();
-
+                                  storeDataToFirebase();
                                   _loginMethod(username, password);
                                 }
 
@@ -203,6 +225,9 @@ class _LoginscreenState extends State<Loginscreen> {
     setState(() {});
     await Future.delayed(const Duration(seconds: 1));
     if (username == "Raje" && password == "Raje") {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("userName", username);
+      prefs.setString("passWord", password);
       return Navigator.pushReplacement(
         context,
         MaterialPageRoute(
@@ -211,6 +236,9 @@ class _LoginscreenState extends State<Loginscreen> {
       );
     }
     if (username == "admin" && password == "admin") {
+      SharedPreferences prefs = await SharedPreferences.getInstance();
+      prefs.setString("userName", username);
+      prefs.setString("passWord", password);
       return Navigator.pushReplacement(
         context,
         MaterialPageRoute(
