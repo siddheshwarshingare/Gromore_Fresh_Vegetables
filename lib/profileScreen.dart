@@ -4,10 +4,10 @@ import 'package:flutter/foundation.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:image_picker/image_picker.dart';
-import 'package:sales_rep/bigColonText.dart';
+
 import 'package:sales_rep/loginScreen.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-import 'package:badges/badges.dart' as badges;
+
 import 'package:flutter_gen/gen_l10n/app_localizations.dart';
 
 class ProfileScreen extends StatefulWidget {
@@ -93,59 +93,9 @@ class _ProfileScreenState extends State<ProfileScreen> {
                   height: MediaQuery.of(context).size.height * 0.5,
                 ),
               ),
-
               const SizedBox(height: 20),
               const Divider(color: Colors.grey),
               const SizedBox(height: 10),
-              // Profile Details Section
-              // Container(
-              //   height: 250,
-              //   padding:
-              //       const EdgeInsets.symmetric(horizontal: 15, vertical: 20),
-              //   margin: const EdgeInsets.symmetric(horizontal: 15),
-              //   decoration: const BoxDecoration(
-              //     color: Color.fromARGB(255, 247, 244, 244),
-              //     borderRadius: BorderRadius.vertical(
-              //       top: Radius.circular(20),
-              //     ),
-              //     boxShadow: [
-              //       BoxShadow(
-              //         color: Colors.black,
-              //         blurRadius: 1,
-              //         spreadRadius: 1,
-              //         offset: Offset(5, 5),
-              //       ),
-              //     ],
-              //   ),
-              //   child: Column(
-              //     children: [
-              //       BigTextColonText(
-              //         title: applocalizations!.name,
-              //         value: "Raje",
-              //         fSize: 16,
-              //       ),
-              //       SizedBox(height: 5),
-              //       BigTextColonText(
-              //         title: applocalizations.emailId,
-              //         value: "raje@",
-              //         fSize: 16,
-              //       ),
-              //       SizedBox(height: 5),
-              //       BigTextColonText(
-              //         title: applocalizations.jodRole,
-              //         value: "Gromore Farming Agent",
-              //         fSize: 16,
-              //       ),
-              //       SizedBox(height: 5),
-              //       BigTextColonText(
-              //         title: applocalizations.mobilenumber,
-              //         value: "7769032792",
-              //         fSize: 16,
-              //       ),
-              //     ],
-              //   ),
-              // ),
-              //const Spacer(),
               Container(
                 width: double.infinity,
                 margin: const EdgeInsets.all(20),
@@ -206,7 +156,7 @@ class _ProfileScreenState extends State<ProfileScreen> {
                               setState(() => _isLoading = true);
                               SharedPreferences prefs =
                                   await SharedPreferences.getInstance();
-                              //await prefs.clear(); // Clear shared preferences
+                              await prefs.clear(); // Clear shared preferences
                               await Future.delayed(
                                   Duration(milliseconds: 1500));
                               Navigator.pushAndRemoveUntil(

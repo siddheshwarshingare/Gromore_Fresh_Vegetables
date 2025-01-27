@@ -1,5 +1,4 @@
 import 'dart:convert';
-
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/foundation.dart';
@@ -70,7 +69,7 @@ class _DashBoardState extends State<DashBoard> {
       int gromoreVegetablesIntrestesPeople = 0;
       int gromoreVegetablesNotIntrestesPeople = 0;
       int milkIntrestesPeople = 0;
-      int milkNotIntrestesPeople = 0; 
+      int milkNotIntrestesPeople = 0;
       // Count 'true' and 'false' for eenaduNews
       for (var doc in snapshot.docs) {
         Map<String, dynamic> data = doc.data() as Map<String, dynamic>;
@@ -101,6 +100,13 @@ class _DashBoardState extends State<DashBoard> {
             gromoreVegetablesNotIntrestesPeople;
         milkTakingIntrestesPeople = milkIntrestesPeople;
         milkNotTakingIntrestesPeople = milkNotIntrestesPeople;
+        print("1111111111$intrestesToJoinPeopleWithGromoreVegetables");
+
+        print("222222$notIntrestesToJoinPeopleWithGromoreVegetables");
+
+        print("333333$milkTakingIntrestesPeople");
+
+        print("444444$milkNotTakingIntrestesPeople");
       });
     } catch (e) {
       print('Error fetching data: $e');
@@ -124,6 +130,7 @@ class _DashBoardState extends State<DashBoard> {
     super.initState();
     _loadDetails();
     getSharedPrefdb();
+    fetchDataFromFirebase();
   }
 
   // Function to toggle between English and Spanish
